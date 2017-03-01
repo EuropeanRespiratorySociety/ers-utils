@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "European Respiratory Society utils library for preparing and parsing content",
   "main": "index.js",
-  "scripts": {
-    "test": "node node_modules/.bin/istanbul cover _mocha -- -R spec",
+  "scripts": { 
+    "test": "node node_modules/.bin/istanbul cover _mocha -- -R spec --recursive test",    
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
   },
   "repository": {
@@ -27,7 +27,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "coveralls": "^2.11.16",
-    "istanbul": "^0.4.5",
+    "istanbul": "1.1.0-alpha.1",
     "mocha": "^3.2.0"
   },
   "dependencies": {

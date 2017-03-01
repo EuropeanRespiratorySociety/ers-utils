@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('chai').assert;
-const format = require('../../../utils').Format;
+const format = require('../../').Format;
 
 
 describe('Format Util', function() {
