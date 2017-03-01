@@ -7,10 +7,11 @@ const moment = require('moment');
 
 describe('Date Util', function() {
   it('returns an object with calendar properties ', () => {
+    const timestamp = moment('10/03/2017', 'DD/MM/YYYY').format('x')
     const object = { 
             year: "2017", 
             month: "March", 
-            timestamp: "1489100400000"
+            timestamp: timestamp
         };
     assert.deepEqual(date.calendar('10/03/2017'), object);
   });
@@ -54,8 +55,9 @@ describe('Date Util', function() {
     assert.equal(date.ersDate('31/03/2017', '03/04/2017'), '31 March - 3 April, 2017');
   });
 
-  it('returns a timestamp', () => {  
-    assert.equal(date.toTimeStamp('10/03/2017'), '1489100400000');
+  it('returns a timestamp', () => {
+    const timestamp = moment('10/03/2017', 'DD/MM/YYYY').format('x')
+    assert.equal(date.toTimeStamp('10/03/2017'), timestamp);
   });
 
   it('is already passed', () => {  
