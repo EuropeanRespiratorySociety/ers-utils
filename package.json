@@ -1,10 +1,10 @@
 {
   "name": "ers-utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "European Respiratory Society utils library for preparing and parsing content",
   "main": "index.js",
-  "scripts": { 
-    "test": "node node_modules/.bin/istanbul cover _mocha -- -R spec --recursive test",    
+  "scripts": {
+    "test": "node node_modules/.bin/istanbul cover _mocha -- -R spec --recursive test",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
   },
   "repository": {
