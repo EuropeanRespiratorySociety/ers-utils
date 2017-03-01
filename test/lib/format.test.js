@@ -15,29 +15,21 @@ describe('Format Util', function() {
     assert.equal(format.title(item).title, 'Title to test');
   });
 
-  // it('it converts markdown to html', () => {
-  //   const mkd = require('marked');
-  //   mkd.setOptions({
-  //     renderer: new mkd.Renderer(),
-  //     gfm: true,
-  //     tables: true,
-  //     breaks: false,
-  //     pedantic: false,
-  //     sanitize: false,
-  //     smartLists: true,
-  //     smartypants: false
-  //   });
-
-  //   const toParse = ['body'];
-  //   const childrenToParse = ['object', 'arrayOfObjects']
-  //   const item = {
-  //     body: "### This is a tiltle\n",
-  //     object: { info: "For venue and suggested accomodation please refer to the pratical info document." },
-  //     arrayOfObjects: [
-  //         { info: "For venue and suggested accomodation please refer to the pratical info document." },
-  //         { text: "For venue and suggested accomodation please refer to the pratical info document." }
-  //       ]
-  //     };
-  //   assert.equal(format.title(item).title, 'Title to test');
-  // });
+  it('it converts markdown to html', () => {
+    const toParse = ['body'];
+    const childrenToParse = ['object', 'arrayOfObjects']
+    const item = {
+      body: "### This is a title\n",
+      object: { info: "test string" },
+      arrayOfObjects: [
+          { info: "test string" },
+          { text: "test string" }
+        ]
+      };
+    let parsed = format.markDownToHtml(item, toParse, childrenToParse)
+    assert.equal(parsed.body, '<h3>This is a title</h3>');
+    assert.equal(parsed.object.info, '<p>test string</p>');
+    assert.equal(parsed.arrayOfObjects[0].info, '<p>test string</p>');
+    assert.equal(parsed.arrayOfObjects[1].text, '<p>test string</p>');
+  });
 });
