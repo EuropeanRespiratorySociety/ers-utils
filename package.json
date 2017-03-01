@@ -1,0 +1,36 @@
+{
+  "name": "ers-utils",
+  "version": "0.0.1",
+  "description": "European Respiratory Society utils library for preparing and parsing content",
+  "main": "index.js",
+  "scripts": {
+    "test": "node node_modules/.bin/istanbul cover _mocha -- -R spec",
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EuropeanRespiratorySociety/ers-utils.git"
+  },
+  "keywords": [
+    "utils",
+    "ERS",
+    "European",
+    "Respiratory",
+    "Society"
+  ],
+  "author": "Samuel Pouyt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EuropeanRespiratorySociety/ers-utils/issues"
+  },
+  "homepage": "https://github.com/EuropeanRespiratorySociety/ers-utils#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.16",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0"
+  },
+  "dependencies": {
+    "moment": "^2.17.1"
+  }
+}
