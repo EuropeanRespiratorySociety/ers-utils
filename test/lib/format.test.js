@@ -16,26 +16,33 @@ describe('Format Util', function() {
   });
 
   it('converts markdown to html', () => {
-    const toParse = ['body'];
+    const toParse = ['body' ];
     const childrenToParse = ['object', 'arrayOfObjects']
     const item = {
       body: "### This is a title\n",
       object: { info: "test string",
-                text: "test string" },
+                text: "test string",
+                foreign: "should not be parsed" },
       arrayOfObjects: [
           { info: "test string" },
           { text: "test string" },
-          { info: "test string" }
-        ]
+          { info: "test string" },
+          { foreign: "should not be parsed" }
+        ],
+        should: "not be touched either"
       };
+
     let parsed = format.markDownToHtml(item, toParse, childrenToParse)
-    console.log(parsed);
+console.log(parsed)
     assert.equal(parsed.body, '<h3>This is a title</h3>\n');
     assert.equal(parsed.object.info, '<p>test string</p>\n');
     assert.equal(parsed.object.text, '<p>test string</p>\n');
+    assert.equal(parsed.object.foreign, 'should not be parsed');
     assert.equal(parsed.arrayOfObjects[0].info, '<p>test string</p>\n');
     assert.equal(parsed.arrayOfObjects[1].text, '<p>test string</p>\n');
     assert.equal(parsed.arrayOfObjects[2].info, '<p>test string</p>\n');
+    assert.equal(parsed.arrayOfObjects[3].foreign, 'should not be parsed');
+    assert.equal(parsed.should, 'not be touched either');
   });
 
 
