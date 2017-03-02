@@ -33,7 +33,7 @@ describe('Format Util', function() {
       };
 
     let parsed = format.markDownToHtml(item, toParse, childrenToParse)
-console.log(parsed)
+
     assert.equal(parsed.body, '<h3>This is a title</h3>\n');
     assert.equal(parsed.object.info, '<p>test string</p>\n');
     assert.equal(parsed.object.text, '<p>test string</p>\n');
