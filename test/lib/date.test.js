@@ -24,9 +24,16 @@ describe('Date Util', function() {
         { title: "Something"},
         { title: "Events Calendar"},
     ]
+
+    const emptyObj = {};
+    const emptyArray = [];
+    const some = 'string';
         
     assert.isTrue(date.isCalendar(object));
     assert.isTrue(date.isCalendar(arrayOfObjects));
+    assert.isFalse(date.isCalendar(emptyObj));
+    assert.isFalse(date.isCalendar(emptyArray));
+    assert.isFalse(date.isCalendar(some));
   });
 
   it('does not belong to the calendar', () => {
