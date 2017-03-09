@@ -67,6 +67,30 @@ describe('Date Util', function() {
     assert.equal(date.toTimeStamp('10/03/2017'), timestamp);
   });
 
+   
+  it('returns an object with date fields formated', () => { 
+    const eventDate = '10/03/2017';
+    const eventEndDate = '11/03/2017';
+    const timestamp = moment('10/03/2017', 'DD/MM/YYYY').format('x')
+    assert.deepEqual(date.dates(eventDate, eventEndDate), {
+                eventDates: '10-11 March, 2017',
+                startDateTimestamp: timestamp,
+                startDate: '10 March, 2017',
+                endDate: '11 March, 2017'
+            });
+  });  
+
+  it('returns an object with date fields formated when there is no end date', () => { 
+    const eventDate = '10/03/2017';
+    const eventEndDate = false;
+    const timestamp = moment('10/03/2017', 'DD/MM/YYYY').format('x')
+    assert.deepEqual(date.dates(eventDate, eventEndDate), {
+                eventDates: '10 March, 2017',
+                startDateTimestamp: timestamp,
+                startDate: '10 March, 2017'
+            });
+  });
+
   it('is already passed', () => {  
     assert.isTrue(date.isAlreadyPassed('10/02/2017'));
   });
