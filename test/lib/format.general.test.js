@@ -15,6 +15,11 @@ describe('Format Util (General)', () => {
     assert.equal(format.title(item).title, 'Title to test');
   });
 
+  it('returns false if there is no title', () => {
+    const item = {title: false};
+    assert.isFalse(format.title(item).title);
+  });
+
   it('maps the model with the received data', () => {
     const data = {title: 'Title to test'};
     const model = {title: false, body: false, any: false}
