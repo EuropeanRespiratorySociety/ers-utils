@@ -54,6 +54,11 @@ describe('Date Util', function() {
     assert.equal(date.ersDate('02/08/2017'), '8 February, 2017', 'There is no 0 in from of single digit day');
   });
 
+  it('does parse a date which is not a valid date', () => {  
+    assert.equal(date.ersDate('this is a string'), 'this is a string');
+    assert.equal(date.ersDate(12345), 12345);
+  });
+
   it('formats two dates in the same month', () => {  
     assert.equal(date.ersDate('02/12/2017', '02/14/2017'), '12-14 February, 2017');
   });
@@ -96,7 +101,7 @@ describe('Date Util', function() {
     const eventDate = '03/10/2017';
     const eventEndDate = false;
     const timestamp = moment('03/10/2017', 'MM/DD/YYYY').format('x')
-    assert.deepEqual(date.dates(eventDate, eventEndDate), {
+    assert.deepEqual(date.dates(eventDate), {
                 eventDates: '10 March, 2017',
                 startDateTimestamp: timestamp,
                 startDate: '10 March, 2017'
@@ -115,7 +120,9 @@ describe('Date Util', function() {
     const item = {
       text: 'This is a text that should stay intact',
       date: '03/10/2017',
+      
       datesInObject: {
+        date: 'this is named as a date but is not',
         text:'some text',
         deadline: '03/10/2017',
         notificationOfResults: "03/10/2017",
@@ -135,6 +142,7 @@ describe('Date Util', function() {
       text: 'This is a text that should stay intact',
       date: '10 March, 2017',
       datesInObject: {
+        date:'this is named as a date but is not',
         text:'some text',
         deadline: '10 March, 2017',
         notificationOfResults: '10 March, 2017',
@@ -167,5 +175,12 @@ describe('Date Util', function() {
         date.ersDate(nowInFuture)
         );
   });
+
+  it('checks if a date is valid', () =>{
+    const string = "this is not a date";
+    const dateTest = "03/10/2017";
+    assert.isFalse(date.isValidDate(string));
+    assert.deepEqual(date.isValidDate(dateTest), moment(dateTest, 'MM/DD/YYYY'));
+  })
 
 });
