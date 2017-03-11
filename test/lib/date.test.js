@@ -111,6 +111,47 @@ describe('Date Util', function() {
     assert.isFalse(date.isAlreadyPassed(moment().add(7, 'days').format('MM/DD/YYYY')));
   });
 
+  it('Parses dates based on array of properties to parse', () => {
+    const item = {
+      date: '03/10/2017',
+      datesInObject: {
+        text:'some text',
+        deadline: '03/10/2017',
+        notificationOfResults: "03/10/2017",
+      },
+      datesInArrayOfObjects: [{
+        text:'some text',
+        someDate: '03/10/2017',
+        someOtherDate: "03/10/2017",
+      },
+      {
+        text:'some text',
+        someDate: '03/10/2017',
+        someOtherDate: "03/10/2017",
+      }]
+    };
+    const result = {
+      date: '10 March, 2017',
+      datesInObject: {
+        text:'some text',
+        deadline: '10 March, 2017',
+        notificationOfResults: '10 March, 2017',
+      },
+      datesInArrayOfObjects: [{
+        text:'some text',
+        someDate: '10 March, 2017',
+        someOtherDate: '10 March, 2017',
+      },
+      {
+        text:'some text',
+        someDate: '10 March, 2017',
+        someOtherDate: '10 March, 2017',
+      }]
+    };
+    const properties = ['date', 'deadline', 'notificationOfResults', 'someDate', 'someOtherDate'];
+    assert.deepEqual(date.parseDates(item, properties), result);
+  });
+
   it('is already passed (LEGACY)', () => {  
     assert.isNull(date.isAlreadyPassedLegacy('02/10/2017'));
   });
