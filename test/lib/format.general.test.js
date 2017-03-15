@@ -142,7 +142,7 @@ describe('Format Util (General)', () => {
   });
 
   it('serializes an object into a querystring', () => {
-    const obj = {query: {test: 'first-query', second: 'second-query'}};
+    const obj = {test: 'first-query', second: 'second-query'};
     assert.equal(format.serializeQuery(obj), '?test=first-query&second=second-query');  
   });
 
