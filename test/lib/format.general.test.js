@@ -112,4 +112,39 @@ describe('Format Util (General)', () => {
         const item = {flags:[]};
       assert.deepEqual(format.setFlags(item), {flags:[{text:false, color:false}]})
   });
+
+  it('parses video', () => {
+    const url = 'https://youtu.be/jglUWD3KMh4';
+    format.parseVideo(url);
+    assert.equal(format.parseVideo(url), '<iframe src="//www.youtube.com/embed/jglUWD3KMh4" frameborder="0" allowfullscreen></iframe>');
+  });
+
+  it('parses video with query params', () => {
+    const url = 'https://youtu.be/jglUWD3KMh4';
+    const param = {query: {test: 'query'}};
+    const params = {query: {test: 'query', second: 'second-query'}};
+    assert.equal(format.parseVideo(url, param), '<iframe src="//www.youtube.com/embed/jglUWD3KMh4?test=query" frameborder="0" allowfullscreen></iframe>');
+    assert.equal(format.parseVideo(url, params), '<iframe src="//www.youtube.com/embed/jglUWD3KMh4?test=query&second=second-query" frameborder="0" allowfullscreen></iframe>');
+  });
+
+  it('parses video with iframe attributes', () => {
+    const url = 'https://youtu.be/jglUWD3KMh4';
+    const attribute = {attr: {width: 400}};
+    const attributes = {attr: {width: 400, height: 200, other: 'test'}};
+    assert.equal(format.parseVideo(url, attribute), '<iframe src="//www.youtube.com/embed/jglUWD3KMh4" width="400" frameborder="0" allowfullscreen></iframe>');
+    assert.equal(format.parseVideo(url, attributes), '<iframe src="//www.youtube.com/embed/jglUWD3KMh4" width="400" height="200" other="test" frameborder="0" allowfullscreen></iframe>');  
+  });
+
+  it('parses video with iframe attributes and query params', () => {
+    const url = 'https://youtu.be/jglUWD3KMh4';
+    const opts = {query: {test: 'query', second: 'second-query'}, attr: {width: 400, height: 200, other: 'test'}};
+    assert.equal(format.parseVideo(url, opts), '<iframe src="//www.youtube.com/embed/jglUWD3KMh4?test=query&second=second-query" width="400" height="200" other="test" frameborder="0" allowfullscreen></iframe>');  
+  });
+
+  it('serializes an object into a querystring', () => {
+    const obj = {query: {test: 'first-query', second: 'second-query'}};
+    assert.equal(format.serializeQuery(obj), '?test=first-query&second=second-query');  
+  });
+
+
 });
