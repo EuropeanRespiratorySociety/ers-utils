@@ -22,13 +22,13 @@ describe('Functional Programming Util', () => {
     assert.equal(addTen(10), 20);
   });
 
-  it('concats sub arrays in to create a flat array', () => {
+  it('concats sub arrays to create a flat array', () => {
     const array = [[1, 2], [3, 4], [5, 6]];
     assert.deepEqual(fp.concatAll(array), [1, 2, 3, 4 , 5, 6]);
 
   });
 
-  it('zips to array applying a function on each elements', () => {
+  it('zips two arrays applying a function on each elements', () => {
     const left = [1,2,3];
     const right = [4,5,6] ;
     assert.deepEqual(fp.zip(left, right, (left, right) => left + right), [5,7,9]);
