@@ -146,5 +146,21 @@ describe('Format Util (General)', () => {
     assert.equal(format.serializeQuery(obj), '?test=first-query&second=second-query');  
   });
 
+  it('returns only the items contained in an array', () => {
+    const obj = {
+      first: 'first item', 
+      second: 'second item',
+      third: {an: 'other',
+              object:'to test'},
+      fourth: ['and', 'an', 'array']};
+    const array = ['first', 'third', 'fourth'];
+    assert.deepEqual(format.filter(obj, array), {
+            first: 'first item',
+            third: {an: 'other',
+              object:'to test'},
+            fourth: ['and', 'an', 'array']
+          });
+  })
+
 
 });
