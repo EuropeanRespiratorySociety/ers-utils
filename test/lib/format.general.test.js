@@ -152,8 +152,10 @@ describe('Format Util (General)', () => {
       second: 'second item',
       third: {an: 'other',
               object:'to test'},
-      fourth: ['and', 'an', 'array']};
+      fourth: ['and', 'an', 'array']
+    };
     const array = ['first', 'third', 'fourth'];
+    
     assert.deepEqual(format.filter(obj, array), {
             first: 'first item',
             third: {an: 'other',
