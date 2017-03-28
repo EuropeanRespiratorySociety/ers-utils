@@ -6,14 +6,21 @@ const moment = require('moment');
 
 
 describe('Date Util', function() {
-  it('returns an object with calendar properties ', () => {
-    const timestamp = moment('03/10/2017', 'MM/DD/YYYY').format('x')
-    const object = { 
-            year: "2017", 
-            month: "March", 
-            timestamp: timestamp
-        };
-    assert.deepEqual(date.calendar('03/10/2017'), object);
+  it('returns an object with calendar properties set', () => {
+    const mockDate = moment().add(7,'days');
+    const dateString = mockDate.format('MM/DD/YYYY');
+    const mockDateFromString = moment(dateString, 'MM/DD/YYYY') //We need to do this for the timestamp to be exactly the same
+    const item = {title: "This is an item title", eventDate: dateString};
+    const object = {
+      title: "This is an item title",
+      eventDate: dateString,
+      calendar: { 
+        year: mockDateFromString.format('YYYY'), 
+        month: mockDateFromString.format('MMMM'), 
+        timestamp: mockDateFromString.unix()
+      }
+    };
+    assert.deepEqual(date.calendar(item), object);
   });
 
   it('belongs to the calendar', () => {
