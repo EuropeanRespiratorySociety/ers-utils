@@ -183,11 +183,76 @@ describe('Date Util', function() {
         );
   });
 
-  it('checks if a date is valid', () =>{
+  it('checks if a date is valid', () => {
     const string = "this is not a date";
     const dateTest = "03/10/2017";
     assert.isFalse(date.isValidDate(string));
     assert.deepEqual(date.isValidDate(dateTest), moment(dateTest, 'MM/DD/YYYY'));
-  })
+  });
+
+  it('returns a formated calendar', () => {
+    const minusAWeek = moment().subtract(7, "days");
+    const plusAWeek = moment().add(7, "days");
+    const plusTwoMonths = moment().add(2, "months");
+    const plusAYear = moment().add(1, "year");
+    const array = [
+      {
+        title: "title 1",
+        eventDate: minusAWeek.format('MM/DD/YYYY')
+      },
+      {
+        title: "title 2",
+        eventDate: plusAWeek.format('MM/DD/YYYY')
+      },
+      {
+        title: "title 3",
+        eventDate: plusTwoMonths.format('MM/DD/YYYY')
+      },
+      {
+        title: "title 4",
+        eventDate: plusAYear.format('MM/DD/YYYY')
+      }
+    ];
+    const calendar = {
+      [plusAWeek.format('YYYY')]: {
+        [plusAWeek.format('MMMM')]: [
+          {
+            title: "title 2",
+            eventDate: plusAWeek.format('MM/DD/YYYY'),
+            calendar: {
+              year: `${plusAWeek.format('YYYY')}`,
+              month: `${plusAWeek.format('MMMM')}`,
+              timestamp: moment(plusAWeek.format('MM/DD/YYYY'), 'MM/DD/YYYY').unix()
+            }
+          }
+        ],
+        [plusTwoMonths.format('MMMM')]: [
+          {
+            title: "title 3",
+            eventDate: plusTwoMonths.format('MM/DD/YYYY'),
+            calendar: {
+              year: `${plusTwoMonths.format('YYYY')}`,
+              month: `${plusTwoMonths.format('MMMM')}`,
+              timestamp: moment(plusTwoMonths.format('MM/DD/YYYY'), 'MM/DD/YYYY').unix()
+            }
+          }
+        ]
+      },
+      [plusAYear.format('YYYY')]: {
+        [plusAYear.format('MMMM')]: [
+          {
+            title: "title 4",
+            eventDate: plusAYear.format('MM/DD/YYYY'),
+            calendar: {
+              year: `${plusAYear.format('YYYY')}`,
+              month: `${plusAYear.format('MMMM')}`,
+              timestamp: moment(plusAYear.format('MM/DD/YYYY'), 'MM/DD/YYYY').unix()
+            }
+          }
+        ]
+      } 
+    };
+    assert.deepEqual(date.prepareCalendar(array), calendar);
+  });
 
 });
