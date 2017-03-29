@@ -127,7 +127,7 @@ describe('Date Util', function() {
     const item = {
       text: 'This is a text that should stay intact',
       date: '03/10/2017',
-      
+      boolean: true,  
       datesInObject: {
         date: 'this is named as a date but is not',
         text:'some text',
@@ -148,6 +148,7 @@ describe('Date Util', function() {
     const result = {
       text: 'This is a text that should stay intact',
       date: '10 March, 2017',
+      boolean: true,
       datesInObject: {
         date:'this is named as a date but is not',
         text:'some text',
