@@ -162,7 +162,13 @@ describe('Format Util (General)', () => {
               object:'to test'},
             fourth: ['and', 'an', 'array']
           });
-  })
+  });
+
+  it('returns a string with no html at all', () => {
+    const string = '<h3>Title</h3><p>this is some text</p>'
+    const result = 'Titlethis is some text'
+    assert.equal(format.clean(string), result);
+  });
 
 
 });
