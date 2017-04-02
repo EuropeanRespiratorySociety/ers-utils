@@ -46,8 +46,11 @@ describe('Format Util (General)', () => {
 
   it('returns the class color for a type', () => {
     const types = ["ERS Course", "ERS Online course", "e-learning", "ERS Skill workshop", "ERS Skills course", "ERS Endorsed activity", "Hands-on"];
-    assert.equal(format.typeColor("ERS Course", types), 'label-school');
-    assert.equal(format.typeColor('Research Seminar', types), 'label-scientific');
+    const types2 = ['Research Seminar'];
+    const label = 'label-school';
+    const label2 = 'label-scientific';
+    assert.equal(format.typeColor("ERS Course", types, label), 'label-school');
+    assert.equal(format.typeColor('Research Seminar', types2, label2), 'label-scientific');
     
   });
   it('returns false if no type is set', () => {
@@ -57,11 +60,14 @@ describe('Format Util (General)', () => {
 
   it('returns an article/item with an addtional property: typeColor set to the correct value', () => {
     const types = ["ERS Course", "ERS Online course", "e-learning", "ERS Skill workshop", "ERS Skills course", "ERS Endorsed activity", "Hands-on"];
+    const types2 = ["Research Seminar"];
     const item = {type:'ERS Course'};
     const item2 = {type:'Research Seminar'};
     const item3 = {type:false};
-    assert.deepEqual(format.setTypeColor(item, types), {type:'ERS Course', typeColor: 'label-school'});
-    assert.deepEqual(format.setTypeColor(item2, types), {type:'Research Seminar', typeColor: 'label-scientific'});
+    const label = 'label-school';
+    const label2 = 'label-scientific';
+    assert.deepEqual(format.setTypeColor(item, types, label), {type:'ERS Course', typeColor: 'label-school'});
+    assert.deepEqual(format.setTypeColor(item2, types2, label2), {type:'Research Seminar', typeColor: 'label-scientific'});
     assert.deepEqual(format.setTypeColor(item3, types), {type:false, typeColor: false});
   })
 
@@ -142,8 +148,8 @@ describe('Format Util (General)', () => {
   });
 
   it('serializes an object into a querystring', () => {
-    const obj = {test: 'first-query', second: 'second-query'};
-    assert.equal(format.serializeQuery(obj), '?test=first-query&second=second-query');  
+    const obj = {test: 'first-query', second: 'second-query', qname:'o:f913cff03624ac461283f'};
+    assert.equal(format.serializeQuery(obj), '?test=first-query&second=second-query&qname=o%3Af913cff03624ac461283f');  
   });
 
   it('returns only the items contained in an array', () => {
@@ -169,6 +175,5 @@ describe('Format Util (General)', () => {
     const result = 'Titlethis is some text'
     assert.equal(format.clean(string), result);
   });
-
 
 });
