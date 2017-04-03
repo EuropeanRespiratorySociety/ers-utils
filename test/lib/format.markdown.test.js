@@ -73,4 +73,15 @@ describe('Format Util (Markdown parsing)', () => {
     assert.equal(parsed.arrayOfObjects[3].foreign, 'should not be parsed');
     assert.equal(parsed.should, 'not be touched either');
   });
+
+  it('creates a shortLeadProperty that contains no html', () => {
+    const item = {
+      leadParagraph: '<p>This is an <b>HTML</b> string <a href="https://some.url">that needs to be transformed</a> in a simple string.</p><p>This is an <b>HTML</b> string <a href="https://some.url">that needs to be transformed</a> in a simple string.</p><p>This is an <b>HTML</b> string <a href="https://some.url">that needs to be transformed</a> in a simple string.</p>' // 213 Characters when cleaned.
+    }
+    const result = format.setShortLead(item)
+    assert.equal(result.shortLead, 'This is an HTML string that needs to be transformed in a simple string.This is an HTML string that needs to be transformed in a simple...') //70 characters
+    assert.isAtMost(result.shortLead.length, 145);
+    assert.isTrue(result.shortLead.includes('...'));
+  })
+
 });

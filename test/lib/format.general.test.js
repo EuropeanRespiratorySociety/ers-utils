@@ -159,7 +159,7 @@ describe('Format Util (General)', () => {
 
   it('serializes an object into a querystring', () => {
     const obj = {test: 'first-query', second: 'second-query', qname:'o:f913cff03624ac461283f'};
-    assert.equal(format.serializeQuery(obj), '?test=first-query&second=second-query&qname=o%3Af913cff03624ac461283f');  
+    assert.equal(format.serializeQuery(obj), '?test=first-query&second=second-query&qname=o:f913cff03624ac461283f');  
   });
 
   it('returns only the items contained in an array', () => {

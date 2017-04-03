@@ -6,6 +6,7 @@ describe('Composition Util', () => {
     const item = {
       title: 'Title to test | this should be removed',
       body: "### This is a title\n",
+      leadParagraph: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a mi ut nunc rhoncus pharetra at ut neque. Nulla facilisi. Phasellus a mi ut nunc rhoncus pharetra at ut neque. Nulla facilisi.</p>',
       arrayOfObjects: [
         { info: "test string" }
       ],
@@ -64,6 +65,8 @@ describe('Composition Util', () => {
     assert.equal(education.typeColor, label);
     assert.equal(scientific.typeColor, label2);
     assert.equal(education.body, '<h3>This is a title</h3>\n');
+    assert.isAtMost(education.shortLead.length, 145);
+    assert.isTrue(education.shortLead.includes('...'), 145);
     assert.equal(education.arrayOfObjects[0].info, '<p>test string</p>\n');
     assert.equal(scientific.body, '<h3>This is a title</h3>\n');
     assert.equal(scientific.arrayOfObjects[0].info, '<p>test string</p>\n');
