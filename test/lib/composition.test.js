@@ -37,18 +37,20 @@ describe('Composition Util', () => {
     const label = 'label-school';
     const label2 = 'label-scientific';
     const config = {
-      toParse: ['body'],
-      childrenToParse: ['arrayOfObjects'],
-      educationTypes : ['edu'],
-      dateProperties:['someDate'],
-      scientificTypes : ['sci'],
-      images: ['image'],
-      documents: ['document'],
-      baseUrl: 'https://www.ersnet.org/assets'
+        toParse: ['body'],
+        childrenToParse: ['arrayOfObjects'],
+        educationTypes : ['edu', 'something else'],
+        edu : label,
+        scientificTypes : ['sci', 'another key'],
+        sci : label2,
+        dateProperties:['someDate'],
+        images: ['image'],
+        documents: ['document'],
+        baseUrl: 'https://www.ersnet.org/assets'
     };
 
-    const education = cp.formatProperties(config, label)(item);
-    const scientific = cp.formatProperties(config, label2)(item2);
+    const education = cp.formatProperties(config)(item);
+    const scientific = cp.formatProperties(config)(item2);
     assert.equal(education.typeColor, label);
     assert.equal(scientific.typeColor, label2);
     assert.equal(education.body, '<h3>This is a title</h3>\n');

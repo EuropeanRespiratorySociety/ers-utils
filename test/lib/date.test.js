@@ -115,6 +115,24 @@ describe('Date Util', function() {
             });
   });
 
+  it('sets dates to an object', () => {
+    const timestamp = moment('03/10/2017', 'MM/DD/YYYY').format('x')
+    const item = {
+      title: 'This is a title',
+      eventDate: '03/10/2017',
+      eventEndDate: false
+    }
+    const result = {
+      title: 'This is a title',
+      eventDate: '03/10/2017',
+      eventDates: '10 March, 2017',
+      startDateTimestamp: timestamp,
+      startDate: '10 March, 2017',
+      eventEndDate: false
+    }
+    assert.deepEqual(date.setDates(item), result)
+  })
+
   it('is already passed', () => {  
     assert.isTrue(date.isAlreadyPassed('02/10/2017'));
   });
