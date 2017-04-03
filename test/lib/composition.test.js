@@ -9,8 +9,9 @@ describe('Composition Util', () => {
       arrayOfObjects: [
         { info: "test string" }
       ],
-      type: 'edu',
+      type: 'ERS Course',
       someDate: '03/10/2017',
+      flags:[],
       image: {
         ref: "node://18dbd4f08d5f428ba9c2/607e97e4474d46e40345/b6b2871b2d9cf6b4996b/daa976116100734310f3",
         id: "daa976116100734310f3",
@@ -39,7 +40,16 @@ describe('Composition Util', () => {
     const config = {
         toParse: ['body'],
         childrenToParse: ['arrayOfObjects'],
-        educationTypes : ['edu', 'something else'],
+        educationTypes : [ 
+            'ERS Course',
+            'ERS Online course',
+            'e-learning',
+            'ERS Skill workshop',
+            'ERS Skills course',
+            'ERS Endorsed activity',
+            'ERS Training programme',
+            'Hands-on' 
+        ],
         edu : label,
         scientificTypes : ['sci', 'another key'],
         sci : label2,
@@ -59,6 +69,7 @@ describe('Composition Util', () => {
     assert.equal(scientific.arrayOfObjects[0].info, '<p>test string</p>\n');
     assert.equal(education.image, 'https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500');
     assert.equal(education.document, 'https://www.ersnet.org/assets/static?node=daa976116100734310f3');
-    assert.equal(education.someDate, '10 March, 2017')
+    assert.equal(education.someDate, '10 March, 2017');
+    assert.deepEqual(education.flags, [{text:false, color:false}])
   });
 });

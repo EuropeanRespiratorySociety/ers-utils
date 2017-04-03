@@ -15,7 +15,13 @@ describe('Format Util (Markdown parsing)', () => {
     },          
     emptyObject: {},          
     emptyArray: [], 
-    false: false,         
+    false: false,
+    flags: [
+      {
+      text: false,
+      color: false
+      }
+    ],         
     arrayOfObjects: [
         { info: "test string" },
         { text: "test string" },
@@ -37,6 +43,7 @@ describe('Format Util (Markdown parsing)', () => {
     assert.equal(parsed.object.text, '<p>test string</p>\n');
     assert.deepEqual(parsed.emptyObject, {});
     assert.deepEqual(parsed.emptyArray, []);
+    assert.deepEqual(parsed.flags, [{text: false, color: false}]);
     assert.equal(parsed.false, false);
     assert.equal(parsed.arrayOfObjects[0].info, '<p>test string</p>\n');
     assert.equal(parsed.arrayOfObjects[1].text, '<p>test string</p>\n');

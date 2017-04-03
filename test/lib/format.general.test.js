@@ -80,7 +80,14 @@ describe('Format Util (General)', () => {
             }
         ]
     };
+    const noFlags = {
+      flags: [{
+        text: false,
+        color: false
+      }]
+    }
      assert.deepEqual(format.setFlags(item), {flags:[{text:"flag text", color:"danger"}]}); 
+     assert.deepEqual(format.setFlags(noFlags), {flags:[{text: false, color: false}]}); 
   });
 
   it('returns flag text length that is at most 40 chars', () => {
@@ -97,6 +104,7 @@ describe('Format Util (General)', () => {
 
   it('returns MANY formated flags', () => {
     const item = {
+        something: 'that should not be touched',
         flags:[
             {
                 text: "flag text",
@@ -108,10 +116,12 @@ describe('Format Util (General)', () => {
             }
         ]
     };
-     assert.deepEqual(format.setFlags(item), {flags:[
-         {text:"flag text", color:"danger"},
-         {text:"flag text 2", color:"other color"}
-         ]}); 
+     assert.deepEqual(format.setFlags(item), {
+        something: 'that should not be touched',
+        flags:[
+          {text:"flag text", color:"danger"},
+          {text:"flag text 2", color:"other color"}
+        ]}); 
   });
 
   it('returns formated flags properties set to false', () => {
