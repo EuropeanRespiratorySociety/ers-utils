@@ -186,4 +186,18 @@ describe('Format Util (General)', () => {
     assert.equal(format.clean(string), result);
   });
 
+  it('sets the limit of items', () => {
+    const limit = '3';
+    const limit2 = 'undefined';
+    const limit3 = '101';
+    const pagination = {
+        default: 25,
+        max: 100
+      };
+
+    assert.equal(format.setLimit(limit, pagination), 3);
+    assert.equal(format.setLimit(limit2, pagination), 25);
+    assert.equal(format.setLimit(limit3, pagination), 100);
+  });
+
 });
