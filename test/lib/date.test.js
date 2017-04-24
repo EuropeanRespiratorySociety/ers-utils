@@ -86,7 +86,7 @@ describe('Date Util', function() {
     const timestamp = moment('03/10/2017', 'MM/DD/YYYY').format('x')
     assert.deepEqual(date.dates(eventDate, eventEndDate), {
                 eventDates: '10-11 March, 2017',
-                startDateTimestamp: timestamp,
+                startDateTimestamp: parseInt(timestamp),
                 startDate: '10 March, 2017',
                 endDate: '11 March, 2017'
             });
@@ -98,7 +98,7 @@ describe('Date Util', function() {
     const timestamp = moment('01/09/2016', 'MM/DD/YYYY').format('x')
     assert.deepEqual(date.dates(eventDate, eventEndDate), {
                 eventDates: '9 January - 31 May, 2017',
-                startDateTimestamp: timestamp,
+                startDateTimestamp: parseInt(timestamp),
                 startDate: '9 January, 2016',
                 endDate: '31 May, 2017'
             });
@@ -110,7 +110,7 @@ describe('Date Util', function() {
     const timestamp = moment('03/10/2017', 'MM/DD/YYYY').format('x')
     assert.deepEqual(date.dates(eventDate), {
                 eventDates: '10 March, 2017',
-                startDateTimestamp: timestamp,
+                startDateTimestamp: parseInt(timestamp),
                 startDate: '10 March, 2017'
             });
   });
@@ -126,7 +126,7 @@ describe('Date Util', function() {
       title: 'This is a title',
       eventDate: '03/10/2017',
       eventDates: '10 March, 2017',
-      startDateTimestamp: timestamp,
+      startDateTimestamp: parseInt(timestamp),
       startDate: '10 March, 2017',
       eventEndDate: false
     }
