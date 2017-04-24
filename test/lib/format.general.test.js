@@ -200,4 +200,40 @@ describe('Format Util (General)', () => {
     assert.equal(format.setLimit(limit3, pagination), 100);
   });
 
+  it('sorts items', () => {
+    const users = [
+      { 'user': 'fred',   'age': 48 },
+      { 'user': 'barney', 'age': 36 },
+      { 'user': 'fred',   'age': 40 },
+      { 'user': 'barney', 'age': 34 },
+      { 'user': 'andrew', 'age': 52 }
+    ];
+    const resultUser = [ 
+        { user: 'andrew', age: 52 },
+        { user: 'barney', age: 36 },
+        { user: 'barney', age: 34 },
+        { user: 'fred', age: 48 },
+        { user: 'fred', age: 40 } 
+    ];
+    const resultAge = [ 
+      { user: 'barney', age: 34 },
+      { user: 'barney', age: 36 },
+      { user: 'fred', age: 40 },
+      { user: 'fred', age: 48 },
+      { user: 'andrew', age: 52 } 
+    ];
+
+    const resultUserAge = [ 
+      { user: 'andrew', age: 52 },
+      { user: 'barney', age: 34 },
+      { user: 'barney', age: 36 },
+      { user: 'fred', age: 40 },
+      { user: 'fred', age: 48 } 
+    ];
+
+    assert.deepEqual(format.sortBy(users, ['user']), resultUser);
+    assert.deepEqual(format.sortBy(users, ['age']), resultAge);
+    assert.deepEqual(format.sortBy(users, ['user', 'age']), resultUserAge);
+  });
+
 });
