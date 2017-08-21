@@ -276,7 +276,7 @@ describe('Date Util', function() {
 
   it('wraps moment', () => {
     const someDate = moment();
-    const formated = someDate.format('D MMMM, YYYY')
+    const formated = someDate.format('D MMMM, YYYY');
     assert.equal(moment.isMoment(date.moment()), moment.isMoment(someDate));
     assert.equal(date.moment().format('D MMMM, YYYY'), formated);
   });

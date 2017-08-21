@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node node_modules/.bin/istanbul cover _mocha -- -R spec --recursive test",
+    "dev": "mocha test --recursive  -w",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
   },
   "repository": {
