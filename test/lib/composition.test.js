@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
 const C = require('../../lib/library').Composition;
-const cp = new C();
+const cp = new C(); 
 
 const item = {
   title: 'Title to test | this should be removed',
