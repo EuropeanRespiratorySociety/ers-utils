@@ -4,6 +4,8 @@ node_js:
   - "7"
 before_install:  
   - npm install -g npm
+before_script:
+  - npm run dev-travis
 script: 
   - npm run test
 cache:
