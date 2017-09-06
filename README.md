@@ -22,10 +22,14 @@ This is not fully functional as it gets mutated at every setps.
 ### Use
 
 ```
-    const cp = require('ers-utils').Composition;
-    const format = require('ers-utils').Format;
-    const date = require('ers-utils').Date;
-    const fp = require('ers-utils').Fp;
+    const C = require('../../lib/library').Composition;
+    const cp = new C(); // now it is classes, thus it needs instantiation
+    const F = require('ers-utils').Format;
+    const format = new F();
+    const D = require('ers-utils').DateUtil; // the name of the class has changed
+    const date = new D();
+    const Fp = require('ers-utils').Fp;
+    const fp = new Fp();
 ```
 
 ### Tests
