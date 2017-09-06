@@ -20,7 +20,98 @@ parser.setOptions({
   smartypants: false
 });
 
+/**
+ * Truncate a string wrapping words and apppend ... to be under the max length
+ * @param {String} string
+ * @param {Number} [length]
+ * @param {String} [append]
+ */
+const truncate = (string, length, append) => {
+  length = length || 80;
+  append = append || '...';
+
+  const options = {
+    length: length,
+    omission: append,
+    separator: ' '
+  };
+
+  return _.truncate(string, options);
+};
+
+/**
+ * Removes any html
+ * @param {string} string
+ * @return {string}
+ */
+const clean = (string) => {
+  return sanitizeHtml(string, {
+    allowedTags: [],
+    allowedAttributes: []
+  });
+};
+
+  /**
+   * Parse a value if it is one of ['info', 'text'] or returns untouched original
+   */
+const parse = (value, key) => {
+  if (_.indexOf(['info', 'text'], key) !== -1) {
+    return parser(value);
+  }
+  return value;
+};
+
+/**
+ * returns the url of a document or an image
+ * @param {string} baseUrl - the path to your node server used to server images and documents
+ * @param {string} type - the type of assets (static or preview)
+ * @param {string} attachement - the node to query
+ * @param {number} [mimetype] - (optional) e.g. image/jpeg
+ * @param {number} [size] - (optional) the size of the image (width)
+ * @return {string} - the fully qualified url
+ */
+const attachementUrl = (baseUrl, type, attachement, size, mimetype) => {
+  size = size || false;
+  mimetype = mimetype || false;
+
+  let qualifiedPath = '/' + type + '?node=' + attachement.id;
+
+  if (type === 'preview') {
+    qualifiedPath += '&name=img' + size + '&size=' + size;
+  }
+
+  if (mimetype) {
+    qualifiedPath += '&mimetype=' + mimetype;
+  }
+
+  return baseUrl + qualifiedPath;
+
+};
+
+/**
+ * This methods add a property to the model used by scientific.
+ * @param {string} type - cloudcms property
+ * @param {Object[]} types - array of types to apply a class
+ * @param {string} label - css class to apply
+ * @return {boolean|string}
+ * @todo {Object[]} classes - abstract away zip arrays
+ */
+const typeColor = (type, types, label) => {
+  if (type) {
+    return types.indexOf(type) !== -1 ?
+      label : false;
+  }
+  return false;
+};
+
 export default class Format {
+
+  constructor() {
+    this.attachementUrl = attachementUrl;
+    this.typeColor = typeColor;
+    this.truncate = truncate;
+    this.clean = clean;
+  }
 
   /**
    * Everything that comes after the | in a title is displayed only
@@ -40,7 +131,7 @@ export default class Format {
    */
   setTypeColor(item, types, label) {
     if (_.isUndefined(item.typeColor) || !item.typeColor) {
-      item.typeColor = this.typeColor(item.type, types, label);
+      item.typeColor = typeColor(item.type, types, label);
     }
     return item;
   }
@@ -55,7 +146,7 @@ export default class Format {
     if (item.flags.length > 0) {
       item.flags = _.map(item.flags, f => {
         return {
-          text: f.text ? this.truncate(f.text, 40) : false,
+          text: f.text ? truncate(f.text, 40) : false,
           color: f.color ? f.color : false
         };
       });
@@ -71,25 +162,9 @@ export default class Format {
    */
   setShortLead(item) {
     if (!_.isUndefined(item.leadParagraph)) {
-      item.shortLead = this.truncate(this.clean(item.leadParagraph), 145);
+      item.shortLead = truncate(clean(item.leadParagraph), 145);
     }
     return item;
-  }
-
-  /**
-   * This methods add a property to the model used by scientific.
-   * @param {string} type - cloudcms property
-   * @param {Object[]} types - array of types to apply a class
-   * @param {string} label - css class to apply
-   * @return {boolean|string}
-   * @todo {Object[]} classes - abstract away zip arrays
-   */
-  typeColor(type, types, label) {
-    if (type) {
-      return types.indexOf(type) !== -1 ?
-        label : false;
-    }
-    return false;
   }
 
   /**
@@ -110,14 +185,14 @@ export default class Format {
       if (_.indexOf(subfields, k) !== -1 &&
         !_.isArray(v) &&
         v) {
-        return _.mapValues(v, (v, k) => this.parse(v, k));
+        return _.mapValues(v, (v, k) => parse(v, k));
       }
 
       if (_.indexOf(subfields, k) !== -1 &&
         _.isArray(v) &&
         v) {
         return _.map(v, v => {
-          return _.mapValues(v, (v, k) => this.parse(v, k));
+          return _.mapValues(v, (v, k) => parse(v, k));
         });
       }
       return v;
@@ -135,52 +210,6 @@ export default class Format {
   }
 
   /**
-   * Truncate a string wrapping words and apppend ... to be under the max length
-   * @param {String} string
-   * @param {Number} [length]
-   * @param {String} [append]
-   */
-  truncate(string, length, append) {
-    length = length || 80;
-    append = append || '...';
-
-    const options = {
-      length: length,
-      omission: append,
-      separator: ' '
-    };
-
-    return _.truncate(string, options);
-  }
-
-  /**
-   * returns the url of a document or an image
-   * @param {string} baseUrl - the path to your node server used to server images and documents
-   * @param {string} type - the type of assets (static or preview)
-   * @param {string} attachement - the node to query
-   * @param {number} [mimetype] - (optional) e.g. image/jpeg
-   * @param {number} [size] - (optional) the size of the image (width)
-   * @return {string} - the fully qualified url
-   */
-  attachementUrl(baseUrl, type, attachement, size, mimetype) {
-    size = size || false;
-    mimetype = mimetype || false;
-
-    let qualifiedPath = '/' + type + '?node=' + attachement.id;
-
-    if (type === 'preview') {
-      qualifiedPath += '&name=img' + size + '&size=' + size;
-    }
-
-    if (mimetype) {
-      qualifiedPath += '&mimetype=' + mimetype;
-    }
-
-    return baseUrl + qualifiedPath;
-
-  }
-
-  /**
    * Parse attachements (cloudcms way) and returns an object with
    * the url of available document and images well formated
    * @param {Object} item - the cloudcms Object
@@ -195,7 +224,7 @@ export default class Format {
 
     return _.mapValues(item, (v, k) => {
       const p = baseUrl => type => (attachement, size) =>
-        this.attachementUrl(baseUrl, type, attachement, size);
+        attachementUrl(baseUrl, type, attachement, size);
       const parsePreview = p(baseUrl)('preview');
       const parseStatic = p(baseUrl)('static');
 
@@ -227,16 +256,6 @@ export default class Format {
       // make sure to return all other values untouched
       return v;
     });
-  }
-
-  /**
-   * Parse a value if it is one of ['info', 'text'] or returns untouched original
-   */
-  parse(value, key) {
-    if (_.indexOf(['info', 'text'], key) !== -1) {
-      return parser(value);
-    }
-    return value;
   }
 
   /**
@@ -273,18 +292,6 @@ export default class Format {
    */
   filter(obj, array) {
     return _.pick(obj, array);
-  }
-
-  /**
-   * Removes any html
-   * @param {string} string
-   * @return {string}
-   */
-  clean(string) {
-    return sanitizeHtml(string, {
-      allowedTags: [],
-      allowedAttributes: []
-    });
   }
 
   /**

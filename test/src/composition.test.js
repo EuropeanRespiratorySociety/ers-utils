@@ -1,6 +1,6 @@
-const assert = require('chai').assert;
-const C = require('../../lib/library').Composition;
-const cp = new C();
+import { assert } from 'chai';
+import { Composition } from '../../src';
+const cp = new Composition();
 
 const item = {
   title: 'Title to test | this should be removed',
