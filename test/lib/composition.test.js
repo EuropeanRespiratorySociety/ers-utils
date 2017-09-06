@@ -1,5 +1,6 @@
 const assert = require('chai').assert;
-const cp = require('../../').Composition;
+const C = require('../../lib/library').Composition;
+const cp = new C();
 
 const item = {
   title: 'Title to test | this should be removed',
@@ -58,11 +59,11 @@ const config = {
     baseUrl: 'https://www.ersnet.org/assets'
 };
 
-describe('Composition Util', () => {  
+describe('Composition Util', () => {
   it('formats title and sets color types', () => {
     const education = cp.formatProperties(config)(item);
     const scientific = cp.formatProperties(config)(item2);
-    
+
     assert.equal(education.typeColor, label);
     assert.equal(scientific.typeColor, label2);
     assert.equal(education.body, '<h3>This is a title</h3>\n');
@@ -74,12 +75,13 @@ describe('Composition Util', () => {
     assert.equal(education.image, 'https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500');
     assert.equal(education.document, 'https://www.ersnet.org/assets/static?node=daa976116100734310f3');
     assert.equal(education.someDate, '10 March, 2017');
-    assert.deepEqual(education.flags, [{text:false, color:false}])
+    assert.deepEqual(education.flags, [{text: false, color: false}]);
   });
+
   it('does not format markdown', () => {
     const markdown = cp.formatProperties(config, true)(item);
 
     assert.equal(markdown.body, '### This is a title\n');
     assert.notEqual(markdown.body, '<h3>This is a title</h3>\n');
-  })
+  });
 });

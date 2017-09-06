@@ -1,7 +1,6 @@
-'use strict';
-
 const assert = require('chai').assert;
-const format = require('../../').Format;
+const F = require('../../lib/library').Format;
+const format = new F();
 
 const baseUrl = 'https://www.ersnet.org/assets';
 const images = ['image', 'highResImage', 'sponsor']

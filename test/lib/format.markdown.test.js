@@ -1,35 +1,34 @@
-'use strict';
-
 const assert = require('chai').assert;
-const format = require('../../').Format;
+const F = require('../../lib/library').Format;
+const format = new F();
 
 describe('Format Util (Markdown parsing)', () => {
   const item = {
-    body: "### This is a title\n",
+    body: '### This is a title\n',
     bodyFalse: false,
-    object: { info: "test string",
-              text: "test string",
-              foreign: "should not be parsed" },
+    object: { info: 'test string',
+              text: 'test string',
+              foreign: 'should not be parsed' },
     objectWithNoValueOfInterest: {
       something: 'string for fun'
     },          
-    emptyObject: {},          
-    emptyArray: [], 
+    emptyObject: {},
+    emptyArray: [],
     false: false,
     flags: [
       {
       text: false,
       color: false
       }
-    ],         
+    ],
     arrayOfObjects: [
-        { info: "test string" },
-        { text: "test string" },
-        { info: "test string" },
-        { foreign: "should not be parsed" }
+        { info: 'test string' },
+        { text: 'test string' },
+        { info: 'test string' },
+        { foreign: 'should not be parsed' }
       ],
-      should: "not be touched either",
-      not: () => undefined 
+      should: 'not be touched either',
+      not: () => undefined
   };
 
   it('converts markdown to html', () => {
@@ -53,17 +52,25 @@ describe('Format Util (Markdown parsing)', () => {
   it('parses only main properties (test without optional param)', () =>{
     const toParse = ['body', 'bodyFalse', 'notInModel' ];
     let parsed = format.markDownToHtml(item, toParse);
+
     assert.equal(assert.equal(parsed.body, '<h3>This is a title</h3>\n'));
-    assert.equal(parsed.arrayOfObjects[0].info, "test string");
-    assert.equal(parsed.arrayOfObjects[1].text, "test string");
-    assert.equal(parsed.arrayOfObjects[2].info, "test string");
-  })
+    assert.equal(parsed.arrayOfObjects[0].info, 'test string');
+    assert.equal(parsed.arrayOfObjects[1].text, 'test string');
+    assert.equal(parsed.arrayOfObjects[2].info, 'test string');
+  });
 
   it('does not parse', () => {
     const toParse = ['body', 'bodyFalse', 'notInModel' ];
-    const childrenToParse = ['object','objectWithNoValueOfInterest', 'arrayOfObjects', 'emptyObject', 'emptyArray', 'false']
+    const childrenToParse = [
+      'object',
+      'objectWithNoValueOfInterest',
+      'arrayOfObjects',
+      'emptyObject',
+      'emptyArray',
+      'false'
+    ];
 
-    let parsed = format.markDownToHtml(item, toParse, childrenToParse)
+    let parsed = format.markDownToHtml(item, toParse, childrenToParse);
 
     assert.equal(parsed.object.foreign, 'should not be parsed');
     assert.equal(parsed.objectWithNoValueOfInterest.something, 'string for fun');
@@ -77,11 +84,12 @@ describe('Format Util (Markdown parsing)', () => {
   it('creates a shortLeadProperty that contains no html', () => {
     const item = {
       leadParagraph: '<p>This is an <b>HTML</b> string <a href="https://some.url">that needs to be transformed</a> in a simple string.</p><p>This is an <b>HTML</b> string <a href="https://some.url">that needs to be transformed</a> in a simple string.</p><p>This is an <b>HTML</b> string <a href="https://some.url">that needs to be transformed</a> in a simple string.</p>' // 213 Characters when cleaned.
-    }
-    const result = format.setShortLead(item)
-    assert.equal(result.shortLead, 'This is an HTML string that needs to be transformed in a simple string.This is an HTML string that needs to be transformed in a simple...') //70 characters
+    };
+    const result = format.setShortLead(item);
+
+    assert.equal(result.shortLead, 'This is an HTML string that needs to be transformed in a simple string.This is an HTML string that needs to be transformed in a simple...') // 70 characters
     assert.isAtMost(result.shortLead.length, 145);
     assert.isTrue(result.shortLead.includes('...'));
-  })
+  });
 
 });

@@ -1,11 +1,9 @@
-'use strict';
-
 const assert = require('chai').assert;
-const date = require('../../').Date;
 const moment = require('moment');
+const D = require('../../lib/library').DateUtils;
+const date = new D();
 
-
-describe('Date Util', function() {
+describe('Date Util', function () {
   it('returns an object with calendar properties set', () => {
     const mockDate = moment().add(7,'days');
     const dateString = mockDate.format('MM/DD/YYYY');
@@ -277,8 +275,8 @@ describe('Date Util', function() {
   it('wraps moment', () => {
     const someDate = moment();
     const formated = someDate.format('D MMMM, YYYY');
+
     assert.equal(moment.isMoment(date.moment()), moment.isMoment(someDate));
     assert.equal(date.moment().format('D MMMM, YYYY'), formated);
   });
-
 });

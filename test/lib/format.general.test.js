@@ -1,12 +1,11 @@
-'use strict';
-
 const assert = require('chai').assert;
-const format = require('../../').Format;
-
+const F = require('../../lib/library').Format;
+const format = new F();
 
 describe('Format Util (General)', () => {
   it('formats the title of the item object', () => {
     const item = {title: 'Title to test | this should be removed'};
+
     assert.equal(format.title(item).title, 'Title to test');
   });
 
