@@ -230,7 +230,7 @@ export default class Format {
 
       if (images.includes(k) && k === 'highResImage' && v) {
         return parsePreview(v, 1800);
-      };
+      }
 
       if (images.includes(k)) {
         if (_.isArray(v)) {
@@ -315,4 +315,5 @@ export default class Format {
     return _.sortBy(source, filter);
   }
 
-};
+}
+

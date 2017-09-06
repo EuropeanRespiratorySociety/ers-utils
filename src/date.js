@@ -6,7 +6,7 @@ import _ from 'lodash';
  * @param {boolean} timestamp
  * @return {Date|boolean}
  */
-const isValidDate = (wouldBeDate, timestamp) => {
+const isValidDate = (wouldBeDate) => {
   return moment(wouldBeDate, 'MM/DD/YYYY').isValid() ? moment(wouldBeDate, 'MM/DD/YYYY') : false;
 };
 
@@ -68,7 +68,7 @@ const dates = (start, end) => {
       startDate: ersDate(start),
       endDate: ersDate(end)
     };
-  };
+  }
 
   if (start && !end) {
     return {
@@ -205,7 +205,7 @@ export default class DateUtils {
           .filter(item => !this.isAlreadyPassed(item.eventDate))
           .map(item => this.calendar(item)), 'calendar.timestamp'),
       'calendar.year'),
-    (v, k, c) => {
+    v => {
       return _.groupBy(v, 'calendar.month');
     });
   }

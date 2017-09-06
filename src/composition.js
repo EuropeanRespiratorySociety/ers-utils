@@ -46,5 +46,6 @@ export default class Composition {
       setEducationTypeColor,
       parseAttachements);
   }
-};
+}
+
 
