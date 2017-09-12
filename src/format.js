@@ -107,6 +107,10 @@ const typeColor = (type, types, label) => {
 export default class Format {
 
   constructor() {
+    /**
+     * Wraps loadash to make it available
+     */
+    this.loadash = _;
     this.attachementUrl = attachementUrl;
     this.typeColor = typeColor;
     this.truncate = truncate;
