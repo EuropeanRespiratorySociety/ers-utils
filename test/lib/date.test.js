@@ -1,4 +1,5 @@
 const assert = require('chai').assert;
+const expect = require('chai').expect;
 const moment = require('moment');
 const D = require('../../lib/library').DateUtils;
 const date = new D();
@@ -230,46 +231,26 @@ describe('Date Util', function () {
         eventDate: plusAYear.format('MM/DD/YYYY')
       }
     ];
-    const calendar = {
-      [plusAWeek.format('YYYY')]: {
-        [plusAWeek.format('MMMM')]: [
-          {
-            title: "title 2",
-            eventDate: plusAWeek.format('MM/DD/YYYY'),
-            calendar: {
-              year: `${plusAWeek.format('YYYY')}`,
-              month: `${plusAWeek.format('MMMM')}`,
-              timestamp: moment(plusAWeek.format('MM/DD/YYYY'), 'MM/DD/YYYY').unix()
-            }
-          }
-        ],
-        [plusTwoMonths.format('MMMM')]: [
-          {
-            title: "title 3",
-            eventDate: plusTwoMonths.format('MM/DD/YYYY'),
-            calendar: {
-              year: `${plusTwoMonths.format('YYYY')}`,
-              month: `${plusTwoMonths.format('MMMM')}`,
-              timestamp: moment(plusTwoMonths.format('MM/DD/YYYY'), 'MM/DD/YYYY').unix()
-            }
-          }
-        ]
-      },
-      [plusAYear.format('YYYY')]: {
-        [plusAYear.format('MMMM')]: [
-          {
-            title: "title 4",
-            eventDate: plusAYear.format('MM/DD/YYYY'),
-            calendar: {
-              year: `${plusAYear.format('YYYY')}`,
-              month: `${plusAYear.format('MMMM')}`,
-              timestamp: moment(plusAYear.format('MM/DD/YYYY'), 'MM/DD/YYYY').unix()
-            }
-          }
-        ]
-      } 
-    };
-    assert.deepEqual(date.prepareCalendar(array), calendar);
+  
+    const result = date.prepareCalendar(array);
+    console.log(result)
+    expect(result).to.be.an('object');
+    expect(result).to.have.property(`${plusAWeek.format('YYYY')}`)
+      .to.have.property(`${[plusAWeek.format('MMMM')]}`)
+      .to.be.an('array');
+    expect(result).to.have.property(`${plusAYear.format('YYYY')}`)
+      .to.have.property(`${[plusAYear.format('MMMM')]}`)
+      .to.be.an('array');
+    expect(result[`${plusAWeek.format('YYYY')}`][`${[plusAWeek.format('MMMM')]}`])
+      .to.deep.include({
+        title: "title 2",
+        eventDate: plusAWeek.format('MM/DD/YYYY'),
+        calendar: {
+          year: `${plusAWeek.format('YYYY')}`,
+          month: `${plusAWeek.format('MMMM')}`,
+          timestamp: moment(plusAWeek.format('MM/DD/YYYY'), 'MM/DD/YYYY').unix()
+        }
+      });
   });
 
   it('wraps moment', () => {
