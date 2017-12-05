@@ -24,6 +24,16 @@ describe('Date Util', function () {
     assert.deepEqual(date.calendar(item), object);
   });
 
+  it('does not create a calendar object', () => {
+    const item = {title: "This is an item title", eventDate: false};
+    const object = {
+      title: "This is an item title",
+      eventDate: false,
+      calendar: false
+    };
+    expect(date.calendar(item).calendar).to.be.undefined;
+  });
+
   it('belongs to the calendar', () => {
     const object = {
         title: "Events Calendar"
@@ -142,6 +152,11 @@ describe('Date Util', function () {
     assert.isFalse(date.isAlreadyPassed(moment().add(7, 'days').format('MM/DD/YYYY')));
   });
 
+
+  it('is already passed filters out wrong dates', () => {  
+    assert.isTrue(date.isAlreadyPassed(false));
+  });
+
   it('Parses dates based on array of properties to parse', () => {
     const item = {
       text: 'This is a text that should stay intact',
@@ -231,6 +246,10 @@ describe('Date Util', function () {
       {
         title: "title 4",
         eventDate: plusAYear.format('MM/DD/YYYY')
+      },
+      {
+        title: "title 5",
+        eventDate: false
       }
     ];
   
@@ -254,6 +273,18 @@ describe('Date Util', function () {
       });
   });
 
+  it('does not return any prepared items', () => {    
+    const array = [
+      {
+        title: "title 5",
+        eventDate: false
+      }
+    ];
+
+    const result = date.prepareCalendar(array);
+    expect(result).to.be.empty;
+  })
+
   it('returns sorted and filtered calendar items', () => {
     const minusAWeek = moment().subtract(7, "days");
     const plusAWeek = moment().add(7, "days");
@@ -275,6 +306,10 @@ describe('Date Util', function () {
       {
         title: "title 2",
         eventDate: plusAWeek.format('MM/DD/YYYY')
+      },
+      {
+        title: "title 5",
+        eventDate: false
       }
     ];
   
@@ -306,11 +341,14 @@ describe('Date Util', function () {
       {
         title: "title 2",
         eventDate: plusAWeek.format('MM/DD/YYYY')
+      },
+      {
+        title: "title 5",
+        eventDate: false
       }
     ];
 
     const reversed = date.prepareCalendarItems(array, true);
-    console.log(reversed[0])
     expect(reversed).to.be.an('array').to.have.lengthOf(3);
     expect(reversed[0]).to.be.an('object').to.include({title: "title 4"});
     expect(reversed[2]).to.be.an('object').to.include({title: "title 2"});

@@ -102,16 +102,19 @@ export default class DateUtils {
   * @returns {Object}
   */
   calendar(item) {
-    const date = moment(item.eventDate, 'MM/DD/YYYY');
-    const calendar = {
-      calendar: {
-        year: date.format('YYYY'),
-        month: date.format('MMMM'),
-        timestamp: date.unix()
-      }
-    };
-
-    return Object.assign(item, calendar);
+    if(item.eventDate) {
+      const date = moment(item.eventDate, 'MM/DD/YYYY');
+      const calendar = {
+        calendar: {
+          year: date.format('YYYY'),
+          month: date.format('MMMM'),
+          timestamp: date.unix()
+        }
+      };
+  
+      return Object.assign(item, calendar);
+    }
+    return item;
   }
 
   /**
@@ -172,11 +175,13 @@ export default class DateUtils {
    * @returns {boolean}
    */
   isAlreadyPassed(date) {
-    let now = moment();
-
     date = moment(date, 'MM/DD/YYYY');
+    if(date.isValid()) {
+      let now = moment();
+      return date < now;
+    }
 
-    return date < now;
+    return true;
 
   }
 
