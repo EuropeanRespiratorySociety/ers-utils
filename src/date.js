@@ -209,5 +209,22 @@ export default class DateUtils {
       return _.groupBy(v, 'calendar.month');
     });
   }
-}
 
+  /**
+   * Given an array of calendar items filters passed events
+   * and return ordered items
+   * @param {Object[]} array
+   * @param {Boolean} reverse
+   * @return {Object[]}
+   */
+  prepareCalendarItems(array, reverse = false) {
+    let result = array
+      .filter(i => !this.isAlreadyPassed(i.eventDate))
+      .map(i => this.calendar(i))
+      .sort((a, b) => a.calendar.timestamp - b.calendar.timestamp);
+    
+    if (reverse) result.reverse();
+    
+    return result;
+  }    
+}

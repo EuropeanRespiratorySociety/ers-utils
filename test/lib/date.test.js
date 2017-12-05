@@ -1,3 +1,5 @@
+import { reverse } from 'dns';
+
 const assert = require('chai').assert;
 const expect = require('chai').expect;
 const moment = require('moment');
@@ -233,7 +235,6 @@ describe('Date Util', function () {
     ];
   
     const result = date.prepareCalendar(array);
-    console.log(result)
     expect(result).to.be.an('object');
     expect(result).to.have.property(`${plusAWeek.format('YYYY')}`)
       .to.have.property(`${[plusAWeek.format('MMMM')]}`)
@@ -251,6 +252,69 @@ describe('Date Util', function () {
           timestamp: moment(plusAWeek.format('MM/DD/YYYY'), 'MM/DD/YYYY').unix()
         }
       });
+  });
+
+  it('returns sorted and filtered calendar items', () => {
+    const minusAWeek = moment().subtract(7, "days");
+    const plusAWeek = moment().add(7, "days");
+    const plusTwoMonths = moment().add(2, "months");
+    const plusAYear = moment().add(1, "year");
+    const array = [
+      {
+        title: "title 1",
+        eventDate: minusAWeek.format('MM/DD/YYYY')
+      },
+      {
+        title: "title 4",
+        eventDate: plusAYear.format('MM/DD/YYYY')
+      },
+      {
+        title: "title 3",
+        eventDate: plusTwoMonths.format('MM/DD/YYYY')
+      },
+      {
+        title: "title 2",
+        eventDate: plusAWeek.format('MM/DD/YYYY')
+      }
+    ];
+  
+    const result = date.prepareCalendarItems(array);
+    expect(result).to.be.an('array').to.have.lengthOf(3);
+    expect(result[0]).to.be.an('object').to.include({title: "title 2"});
+    expect(result[2]).to.be.an('object').to.include({title: "title 4"});
+
+  });
+
+  it('returns sorted (reverse order) and filtered calendar items', () => {
+    const minusAWeek = moment().subtract(7, "days");
+    const plusAWeek = moment().add(7, "days");
+    const plusTwoMonths = moment().add(2, "months");
+    const plusAYear = moment().add(1, "year");
+    const array = [
+      {
+        title: "title 1",
+        eventDate: minusAWeek.format('MM/DD/YYYY')
+      },
+      {
+        title: "title 4",
+        eventDate: plusAYear.format('MM/DD/YYYY')
+      },
+      {
+        title: "title 3",
+        eventDate: plusTwoMonths.format('MM/DD/YYYY')
+      },
+      {
+        title: "title 2",
+        eventDate: plusAWeek.format('MM/DD/YYYY')
+      }
+    ];
+
+    const reversed = date.prepareCalendarItems(array, true);
+    console.log(reversed[0])
+    expect(reversed).to.be.an('array').to.have.lengthOf(3);
+    expect(reversed[0]).to.be.an('object').to.include({title: "title 4"});
+    expect(reversed[2]).to.be.an('object').to.include({title: "title 2"});
+
   });
 
   it('wraps moment', () => {
