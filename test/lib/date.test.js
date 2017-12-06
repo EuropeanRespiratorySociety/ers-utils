@@ -225,7 +225,7 @@ describe('Date Util', function () {
     assert.deepEqual(date.isValidDate(dateTest), moment(dateTest, 'MM/DD/YYYY'));
   });
 
-  it('returns a formated calendar', () => {
+  it('returns a formated calendar timeline', () => {
     const minusAWeek = moment().subtract(7, "days");
     const plusAWeek = moment().add(7, "days");
     const plusTwoMonths = moment().add(2, "months");
@@ -253,7 +253,7 @@ describe('Date Util', function () {
       }
     ];
   
-    const result = date.prepareCalendar(array);
+    const result = date.timeline(array);
     expect(result).to.be.an('object');
     expect(result).to.have.property(`${plusAWeek.format('YYYY')}`)
       .to.have.property(`${[plusAWeek.format('MMMM')]}`)
@@ -273,7 +273,7 @@ describe('Date Util', function () {
       });
   });
 
-  it('does not return any prepared items', () => {    
+  it('does not return any timeline items', () => {    
     const array = [
       {
         title: "title 5",
@@ -281,7 +281,7 @@ describe('Date Util', function () {
       }
     ];
 
-    const result = date.prepareCalendar(array);
+    const result = date.timeline(array);
     expect(result).to.be.empty;
   })
 
@@ -313,7 +313,7 @@ describe('Date Util', function () {
       }
     ];
   
-    const result = date.prepareCalendarItems(array);
+    const result = date.prepareCalendar(array);
     expect(result).to.be.an('array').to.have.lengthOf(3);
     expect(result[0]).to.be.an('object').to.include({title: "title 2"});
     expect(result[2]).to.be.an('object').to.include({title: "title 4"});
@@ -348,7 +348,7 @@ describe('Date Util', function () {
       }
     ];
 
-    const reversed = date.prepareCalendarItems(array, true);
+    const reversed = date.prepareCalendar(array, true);
     expect(reversed).to.be.an('array').to.have.lengthOf(3);
     expect(reversed[0]).to.be.an('object').to.include({title: "title 4"});
     expect(reversed[2]).to.be.an('object').to.include({title: "title 2"});

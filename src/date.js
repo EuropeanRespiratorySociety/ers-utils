@@ -200,10 +200,11 @@ export default class DateUtils {
 
   /**
    * Order each item per year and then per month adding first a calendar property
+   * This method helps to easily create a timeline with separators
    * @param {Object[]} array
    * @return {Object[]}
    */
-  prepareCalendar(array) {
+  timeline(array) {
     return _.mapValues(
       _.groupBy(
       _.sortBy(array
@@ -222,7 +223,7 @@ export default class DateUtils {
    * @param {Boolean} reverse
    * @return {Object[]}
    */
-  prepareCalendarItems(array, reverse = false) {
+  prepareCalendar(array, reverse = false) {
     let result = array
       .filter(i => !this.isAlreadyPassed(i.eventDate))
       .map(i => this.calendar(i))
