@@ -1,5 +1,5 @@
 const assert = require('chai').assert;
-const F = require('../../lib/library').Fp;
+const F = require('../../lib/library.min').Fp;
 const fp = new F();
 
 describe('Functional Programming Util', () => {

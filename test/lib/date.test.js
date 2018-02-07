@@ -3,7 +3,7 @@ import { reverse } from 'dns';
 const assert = require('chai').assert;
 const expect = require('chai').expect;
 const moment = require('moment');
-const D = require('../../lib/library').DateUtils;
+const D = require('../../lib/library.min').DateUtils;
 const date = new D();
 
 describe('Date Util', function () {

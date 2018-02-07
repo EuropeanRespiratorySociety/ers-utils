@@ -1,5 +1,5 @@
 const assert = require('chai').assert;
-const C = require('../../lib/library').Composition;
+const C = require('../../lib/library.min').Composition;
 const cp = new C();
 
 const item = {
@@ -79,9 +79,17 @@ describe('Composition Util', () => {
   });
 
   it('does not format markdown', () => {
-    const markdown = cp.formatProperties(config, true)(item);
+    const markdown = cp.formatProperties(config, 'markdown')(item);
 
     assert.equal(markdown.body, '### This is a title\n');
     assert.notEqual(markdown.body, '<h3>This is a title</h3>\n');
+  });
+
+  it('removes any html or markdown', () => {
+    const raw = cp.formatProperties(config, 'raw')(item);
+
+    assert.equal(raw.body, 'This is a title\n');
+    assert.notEqual(raw.body, '<h3>This is a title</h3>\n');
+    assert.notEqual(raw.body, '### This is a title\n');
   });
 });

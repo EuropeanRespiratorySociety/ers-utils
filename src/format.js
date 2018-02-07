@@ -54,9 +54,10 @@ const clean = (string) => {
   /**
    * Parse a value if it is one of ['info', 'text'] or returns untouched original
    */
-const parse = (value, key) => {
+const parse = (value, key, raw = false) => {
   if (_.indexOf(['info', 'text'], key) !== -1) {
-    return parser(value);
+    const r = parser(value);
+    return !raw ?  r : clean(r);
   }
   return value;
 };
@@ -176,27 +177,29 @@ export default class Format {
    * @param {Object} item
    * @param {Object[]} fields - Fields that need parsing
    * @param {Object[]|Object} [subfileds] - subfields that need parsing
+   * @param {boolean} [raw] - html or raw text
    * @return {Object}
    */
-  markDownToHtml(item, fields, subfields) {
+  parseContent(item, fields, subfields, raw) {
     subfields = subfields || [];
+    raw = raw || false;
 
     return _.mapValues(item, (v, k) => {
       if (fields.indexOf(k) !== -1 && v) {
-        return parser(v);
+        return !raw ? parser(v) : clean(parser(v));
       }
 
       if (_.indexOf(subfields, k) !== -1 &&
         !_.isArray(v) &&
         v) {
-        return _.mapValues(v, (v, k) => parse(v, k));
+        return _.mapValues(v, (v, k) => parse(v, k, raw));
       }
 
       if (_.indexOf(subfields, k) !== -1 &&
         _.isArray(v) &&
         v) {
         return _.map(v, v => {
-          return _.mapValues(v, (v, k) => parse(v, k));
+          return _.mapValues(v, (v, k) => parse(v, k, raw));
         });
       }
       return v;

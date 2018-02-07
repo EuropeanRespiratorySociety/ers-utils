@@ -1,5 +1,5 @@
 const assert = require('chai').assert;
-const F = require('../../lib/library').Format;
+const F = require('../../lib/library.min').Format;
 const format = new F();
 
 describe('Format Util (General)', () => {

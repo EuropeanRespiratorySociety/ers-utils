@@ -2,7 +2,7 @@
   "name": "ers-utils",
   "version": "0.1.6",
   "description": "European Respiratory Society utils library for preparing and parsing content",
-  "main": "lib/library.js",
+  "main": "lib/library.min.js",
   "scripts": {
     "build": "webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",
@@ -11,10 +11,8 @@
     "test": "npm run eslint && nyc --reporter=lcov --reporter=text mocha --compilers js:babel-core/register --colors ./test/lib --recursive",
     "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/lib --recursive",
     "test:watch-composition": "mocha --compilers js:babel-core/register --colors -w ./test/lib/composition.test.js",
-    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
-    "mocha": "mocha test/lib --recursive",
-    "mocha:watch": "mocha test/ --recursive --watch",
-    "mocha:debug": "mocha test/lib/composition.test.js --watch"
+    "test:watch-markdown": "mocha --compilers js:babel-core/register --colors -w ./test/lib/format.markdown.test.js",
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
   },
   "repository": {
     "type": "git",
