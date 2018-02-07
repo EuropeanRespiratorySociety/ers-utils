@@ -6,7 +6,6 @@
   "scripts": {
     "build": "webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",
-    "dev-travis": "webpack --env dev",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "test": "npm run eslint && nyc --reporter=lcov --reporter=text mocha --compilers js:babel-core/register --colors ./test/lib --recursive",
     "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/lib --recursive",
