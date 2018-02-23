@@ -27,8 +27,12 @@ describe('Format Util (Markdown parsing)', () => {
         { info: 'test string' },
         { foreign: 'should not be parsed' }
       ],
-      should: 'not be touched either',
-      not: () => undefined
+    arrayOfStrings: [
+      'should not be parsed',
+      'this either',
+    ],  
+    should: 'not be touched either',
+    not: () => undefined
   };
 
   it('converts markdown to html', () => {
@@ -47,6 +51,8 @@ describe('Format Util (Markdown parsing)', () => {
     assert.equal(parsed.arrayOfObjects[0].info, '<p>test string</p>\n');
     assert.equal(parsed.arrayOfObjects[1].text, '<p>test string</p>\n');
     assert.equal(parsed.arrayOfObjects[2].info, '<p>test string</p>\n');
+    assert.equal(parsed.arrayOfStrings[0], 'should not be parsed');
+    assert.equal(parsed.arrayOfStrings[1], 'this either');
   });
 
   it('converts markdown to raw text', () => {
@@ -65,6 +71,8 @@ describe('Format Util (Markdown parsing)', () => {
     assert.equal(parsed.arrayOfObjects[0].info, 'test string\n');
     assert.equal(parsed.arrayOfObjects[1].text, 'test string\n');
     assert.equal(parsed.arrayOfObjects[2].info, 'test string\n');
+    assert.equal(parsed.arrayOfStrings[0], 'should not be parsed');
+    assert.equal(parsed.arrayOfStrings[1], 'this either');
   });
 
   it('parses only main properties (test without optional param)', () =>{
@@ -75,6 +83,8 @@ describe('Format Util (Markdown parsing)', () => {
     assert.equal(parsed.arrayOfObjects[0].info, 'test string');
     assert.equal(parsed.arrayOfObjects[1].text, 'test string');
     assert.equal(parsed.arrayOfObjects[2].info, 'test string');
+    assert.equal(parsed.arrayOfStrings[0], 'should not be parsed');
+    assert.equal(parsed.arrayOfStrings[1], 'this either');
   });
 
   it('does not parse', () => {
@@ -97,6 +107,8 @@ describe('Format Util (Markdown parsing)', () => {
     assert.equal(parsed.false, false);
     assert.equal(parsed.arrayOfObjects[3].foreign, 'should not be parsed');
     assert.equal(parsed.should, 'not be touched either');
+    assert.equal(parsed.arrayOfStrings[0], 'should not be parsed');
+    assert.equal(parsed.arrayOfStrings[1], 'this either');
   });
 
   it('creates a shortLeadProperty that contains no html', () => {

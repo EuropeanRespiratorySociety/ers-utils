@@ -25,7 +25,11 @@ const item = {
     title: "EBUS training.jpg",
     qname: "o:daa976116100734310f3",
     qname: "n:node"
-  }
+  },
+  arrayOfStrings: [
+    'should not be parsed',
+    'this either',
+  ]
 };
 const item2 = {
   title: 'Title to test | this should be removed',      
@@ -33,7 +37,11 @@ const item2 = {
   arrayOfObjects: [
     { info: "test string" }
   ],
-  type: 'sci'
+  type: 'sci',
+  arrayOfStrings: [
+    'should not be parsed',
+    'this either',
+  ]
 };
 const label = 'label-school';
 const label2 = 'label-scientific';
@@ -76,6 +84,10 @@ describe('Composition Util', () => {
     assert.equal(education.document, 'https://www.ersnet.org/assets/static?node=daa976116100734310f3');
     assert.equal(education.someDate, '10 March, 2017');
     assert.deepEqual(education.flags, [{text: false, color: false}]);
+    assert.equal(education.arrayOfStrings[0], 'should not be parsed');
+    assert.equal(education.arrayOfStrings[1], 'this either');
+    assert.equal(scientific.arrayOfStrings[0], 'should not be parsed');
+    assert.equal(scientific.arrayOfStrings[1], 'this either');
   });
 
   it('does not format markdown', () => {

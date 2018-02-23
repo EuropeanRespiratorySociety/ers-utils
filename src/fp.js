@@ -7,10 +7,11 @@
 export default class Fp {
 
   compose(fn, ...rest) {
-    return rest.length === 0 ?
-      fn :
-      (...args) =>
-          fn(this.compose(...rest)(...args));
+    return rest.length === 0 
+      ? fn 
+      : (...args) => {
+        return fn(this.compose(...rest)(...args));
+      };
   }
 
   /**

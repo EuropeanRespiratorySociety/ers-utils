@@ -60,7 +60,11 @@ const item = {
     }
 
   ],
-  "documents": false
+  "documents": false,
+  "arrayOfStrings": [
+    "should not be parsed",
+    "this either",
+  ]
 };
 
 describe('Format Util (Attachements)', () => {
@@ -143,7 +147,11 @@ describe('Format Util (Attachements)', () => {
             "text": "this is the second string",
           }
         ],
-        "documents": false
+        "documents": false,
+        "arrayOfStrings": [
+          "should not be parsed",
+          "this either",
+        ]
     };
   assert.deepEqual(format.parseAttachements(item, baseUrl, null, documents), result);
 });
@@ -167,7 +175,11 @@ describe('Format Util (Attachements)', () => {
             "text": "this is the second string",
           }
         ],
-        "documents": false
+        "documents": false,
+        "arrayOfStrings": [
+          "should not be parsed",
+          "this either",
+        ]
     };
     assert.deepEqual(format.parseAttachements(item, baseUrl, images, documents), result);
   });

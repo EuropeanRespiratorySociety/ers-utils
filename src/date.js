@@ -158,7 +158,9 @@ export default class DateUtils {
         });
       }
       if (_.isArray(v)) {
-        return v.map(v => {
+        return typeof v[0] === 'string' 
+        ? v
+        : v.map(v => {
           return _.mapValues(v, (v, k) =>
             _.indexOf(properties, k) !== -1 ?
             ersDate(v) :

@@ -11,7 +11,14 @@ describe('Date Util', function () {
     const mockDate = moment().add(7,'days');
     const dateString = mockDate.format('MM/DD/YYYY');
     const mockDateFromString = moment(dateString, 'MM/DD/YYYY') //We need to do this for the timestamp to be exactly the same
-    const item = {title: "This is an item title", eventDate: dateString};
+    const item = {
+      title: "This is an item title", 
+      eventDate: dateString,
+      arrayOfStrings: [
+        'should not be parsed',
+        'this either',
+      ]
+    };
     const object = {
       title: "This is an item title",
       eventDate: dateString,
@@ -19,19 +26,36 @@ describe('Date Util', function () {
         year: mockDateFromString.format('YYYY'), 
         month: mockDateFromString.format('MMMM'), 
         timestamp: mockDateFromString.unix()
-      }
+      },
+      arrayOfStrings: [
+        'should not be parsed',
+        'this either',
+      ],  
     };
-    assert.deepEqual(date.calendar(item), object);
+    const res = date.calendar(item);
+    assert.deepEqual(res, object);
   });
 
   it('does not create a calendar object', () => {
-    const item = {title: "This is an item title", eventDate: false};
+    const item = {
+      title: "This is an item title", 
+      eventDate: false,
+      arrayOfStrings: [
+        'should not be parsed',
+        'this either',
+      ]
+    };
     const object = {
       title: "This is an item title",
       eventDate: false,
-      calendar: false
+      calendar: false,
+      arrayOfStrings: [
+        'should not be parsed',
+        'this either',
+      ]
     };
-    expect(date.calendar(item).calendar).to.be.undefined;
+    const res = date.calendar(item);
+    expect(res.calendar).to.be.undefined;
   });
 
   it('belongs to the calendar', () => {
@@ -46,10 +70,15 @@ describe('Date Util', function () {
     const emptyObj = {};
     const emptyArray = [];
     const some = 'string';
-        
+    const arrayOfStrings = [
+      'should not be parsed',
+      'this either',
+    ];
+
     assert.isTrue(date.isCalendar(object));
     assert.isTrue(date.isCalendar(arrayOfObjects));
     assert.isFalse(date.isCalendar(emptyObj));
+    assert.isFalse(date.isCalendar(arrayOfStrings));
     assert.isFalse(date.isCalendar(emptyArray));
     assert.isFalse(date.isCalendar(some));
   });
@@ -62,9 +91,15 @@ describe('Date Util', function () {
         { title: "Some category"},
         { title: "Some category"},
     ];
+
+    const arrayOfStrings = [
+      'should not be parsed',
+      'this either',
+    ];
         
     assert.isFalse(date.isCalendar(object));
     assert.isFalse(date.isCalendar(arrayOfObjects));
+    assert.isFalse(date.isCalendar(arrayOfStrings));
   });
 
   it('formats a single date', () => {  
@@ -177,7 +212,11 @@ describe('Date Util', function () {
         text:'some text',
         someDate: '03/10/2017',
         someOtherDate: "03/10/2017",
-      }]
+      }],
+      arrayOfStrings: [
+        'should not be parsed',
+        'this either',
+      ]
     };
     const result = {
       text: 'This is a text that should stay intact',
@@ -198,7 +237,11 @@ describe('Date Util', function () {
         text:'some text',
         someDate: '10 March, 2017',
         someOtherDate: '10 March, 2017',
-      }]
+      }],
+      arrayOfStrings: [
+        'should not be parsed',
+        'this either',
+      ]
     };
     const properties = ['date', 'deadline', 'notificationOfResults', 'someDate', 'someOtherDate'];
     assert.deepEqual(date.parseDates(item, properties), result);

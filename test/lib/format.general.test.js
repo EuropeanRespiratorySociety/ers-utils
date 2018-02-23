@@ -113,6 +113,10 @@ describe('Format Util (General)', () => {
                 text: "flag text 2",
                 color: "other color"
             }
+        ],
+        arrayOfStrings: [
+          'should not be parsed',
+          'this either',
         ]
     };
      assert.deepEqual(format.setFlags(item), {
@@ -120,6 +124,10 @@ describe('Format Util (General)', () => {
         flags:[
           {text:"flag text", color:"danger"},
           {text:"flag text 2", color:"other color"}
+        ],
+        arrayOfStrings: [
+          'should not be parsed',
+          'this either',
         ]}); 
   });
 
