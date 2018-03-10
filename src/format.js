@@ -111,7 +111,7 @@ export default class Format {
     /**
      * Wraps loadash to make it available
      */
-    this.loadash = _;
+    this.lodash = _;
     this.attachementUrl = attachementUrl;
     this.typeColor = typeColor;
     this.truncate = truncate;
