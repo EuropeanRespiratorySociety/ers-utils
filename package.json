@@ -4,8 +4,8 @@
   "description": "European Respiratory Society utils library for preparing and parsing content",
   "main": "lib/library.min.js",
   "scripts": {
-    "build": "webpack --env build",
-    "dev": "webpack --progress --colors --watch --env dev",
+    "build": "webpack --env build --mode production",
+    "dev": "webpack --progress --colors --watch --env dev --mode development",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "test": "npm run eslint && nyc --reporter=lcov --reporter=text mocha --compilers js:babel-core/register --colors ./test/lib --recursive",
     "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/lib --recursive",
