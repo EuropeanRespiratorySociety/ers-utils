@@ -158,6 +158,7 @@ export default class DateUtils {
         });
       }
       if (_.isArray(v)) {
+        /* eslint-disable indent */
         return typeof v[0] === 'string' 
         ? v
         : v.map(v => {
@@ -167,6 +168,7 @@ export default class DateUtils {
             v);
         });
       }
+      /* eslint-enable indent */
       return v;
     });
   }
@@ -209,13 +211,13 @@ export default class DateUtils {
   timeline(array) {
     return _.mapValues(
       _.groupBy(
-      _.sortBy(array
+        _.sortBy(array
           .filter(item => !this.isAlreadyPassed(item.eventDate))
           .map(item => this.calendar(item)), 'calendar.timestamp'),
-      'calendar.year'),
-    v => {
-      return _.groupBy(v, 'calendar.month');
-    });
+        'calendar.year'),
+      v => {
+        return _.groupBy(v, 'calendar.month');
+      });
   }
 
   /**

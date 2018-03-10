@@ -5,6 +5,7 @@ node_js:
   - "7"
 before_install:  
   - npm install -g npm
+  - npm install -g codecov
 before_script:
   - npm run build
 script: 
@@ -14,5 +15,6 @@ cache:
     - "node_modules"
 after_success: 
   - npm run coveralls
+  - npm run codecov
 notifications:
   email: false

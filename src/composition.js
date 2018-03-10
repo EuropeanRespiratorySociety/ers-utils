@@ -23,7 +23,7 @@ export default class Composition {
     const setEducationTypeColor = l.curryRight(format.setTypeColor)(config.edu)(config.educationTypes);
     const setScientificTypeColor = l.curryRight(format.setTypeColor)(config.sci)(config.scientificTypes);
     const parseDates = l.curryRight(date.parseDates)(config.dateProperties);
-
+    /* eslint-disable indent */
     return fp.compose(
       date.setDates,
       format.title,
@@ -39,6 +39,7 @@ export default class Composition {
       ? item => item
       : markDownToHtml
     );
+    /* eslint-enable indent */
   }
 }
 
