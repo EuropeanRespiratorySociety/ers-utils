@@ -1,7 +1,6 @@
 import { reverse } from 'dns';
+import { assert, expect } from 'chai';
 
-const assert = require('chai').assert;
-const expect = require('chai').expect;
 const moment = require('moment');
 const D = require('../../lib/library.min').DateUtils;
 const date = new D();
