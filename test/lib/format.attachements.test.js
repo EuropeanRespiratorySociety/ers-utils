@@ -90,6 +90,30 @@ const itemWithoutImage = {
       "this either",
     ]
 };
+const itemImageFalse = {
+  "image": false,
+  "highResImage": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img1800&size=1800",
+  "programme": "https://www.ersnet.org/assets/static?node=daa976116100734310f3",
+  "practicalInfo": "https://www.ersnet.org/assets/static?node=daa976116100734310f3",
+  "sponsor": [
+      {
+      "text": "this is the first string",
+      "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500"
+      },
+      {
+      "text": "this is the second string",
+      "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500"
+      },
+      {
+        "text": "this is the second string",
+      }
+    ],
+    "documents": false,
+    "arrayOfStrings": [
+      "should not be parsed",
+      "this either",
+    ]
+};
 
 describe('Format Util (Attachements)', () => {
 
@@ -234,6 +258,34 @@ it('returns formated image even if no image was provide but only a highResImage'
       ]
   };
   assert.deepEqual(format.addImageFromHighResImage(itemWithoutImage), result);
+});
+
+it('returns formated image even if no image was provide but only a highResImage', () => {
+  const result = {
+    "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500",
+    "highResImage": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img1800&size=1800",
+    "programme": "https://www.ersnet.org/assets/static?node=daa976116100734310f3",
+    "practicalInfo": "https://www.ersnet.org/assets/static?node=daa976116100734310f3",
+    "sponsor": [
+        {
+        "text": "this is the first string",
+        "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500"
+        },
+        {
+        "text": "this is the second string",
+        "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500"
+        },
+        {
+          "text": "this is the second string",
+        }
+      ],
+      "documents": false,
+      "arrayOfStrings": [
+        "should not be parsed",
+        "this either",
+      ]
+  };
+  assert.deepEqual(format.addImageFromHighResImage(itemImageFalse), result);
 });
 
   it('does not format anything', () => {

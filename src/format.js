@@ -221,7 +221,7 @@ export default class Format {
    * @param {*} item - an already parsed Object
    */
   addImageFromHighResImage(item) {
-    if(item.image === undefined && item.highResImage) {
+    if(!item.image && item.highResImage) {
       item.image = `${item.highResImage.split('&')[0]}&name=img500&size=500`;
     }
     return item;
