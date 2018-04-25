@@ -217,6 +217,17 @@ export default class Format {
   }
 
   /**
+   * Add an image url from an high resolution one
+   * @param {*} item - an already parsed Object
+   */
+  addImageFromHighResImage(item) {
+    if(item.image === undefined && item.highResImage) {
+      item.image = `${item.highResImage.split('&')[0]}&name=img500&size=500`;
+    }
+    return item;
+  }
+
+  /**
    * Parse attachements (cloudcms way) and returns an object with
    * the url of available document and images well formated
    * @param {Object} item - the cloudcms Object

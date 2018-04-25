@@ -1,5 +1,6 @@
 const assert = require('chai').assert;
 const F = require('../../lib/library.min').Format;
+// const F = require('../../lib/library').Format;
 const format = new F();
 
 const baseUrl = 'https://www.ersnet.org/assets';
@@ -65,6 +66,29 @@ const item = {
     "should not be parsed",
     "this either",
   ]
+};
+const itemWithoutImage = {
+  "highResImage": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img1800&size=1800",
+  "programme": "https://www.ersnet.org/assets/static?node=daa976116100734310f3",
+  "practicalInfo": "https://www.ersnet.org/assets/static?node=daa976116100734310f3",
+  "sponsor": [
+      {
+      "text": "this is the first string",
+      "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500"
+      },
+      {
+      "text": "this is the second string",
+      "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500"
+      },
+      {
+        "text": "this is the second string",
+      }
+    ],
+    "documents": false,
+    "arrayOfStrings": [
+      "should not be parsed",
+      "this either",
+    ]
 };
 
 describe('Format Util (Attachements)', () => {
@@ -156,33 +180,61 @@ describe('Format Util (Attachements)', () => {
   assert.deepEqual(format.parseAttachements(item, baseUrl, null, documents), result);
 });
 
-  it('returns formated urls', () => {
-    const result = {
-      "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500",
-      "highResImage": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img1800&size=1800",
-      "programme": "https://www.ersnet.org/assets/static?node=daa976116100734310f3",
-      "practicalInfo": "https://www.ersnet.org/assets/static?node=daa976116100734310f3",
-      "sponsor": [
-          {
-          "text": "this is the first string",
-          "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500"
-          },
-          {
+it('returns formated urls', () => {
+  const result = {
+    "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500",
+    "highResImage": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img1800&size=1800",
+    "programme": "https://www.ersnet.org/assets/static?node=daa976116100734310f3",
+    "practicalInfo": "https://www.ersnet.org/assets/static?node=daa976116100734310f3",
+    "sponsor": [
+        {
+        "text": "this is the first string",
+        "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500"
+        },
+        {
+        "text": "this is the second string",
+        "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500"
+        },
+        {
           "text": "this is the second string",
-          "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500"
-          },
-          {
-            "text": "this is the second string",
-          }
-        ],
-        "documents": false,
-        "arrayOfStrings": [
-          "should not be parsed",
-          "this either",
-        ]
-    };
-    assert.deepEqual(format.parseAttachements(item, baseUrl, images, documents), result);
-  });
+        }
+      ],
+      "documents": false,
+      "arrayOfStrings": [
+        "should not be parsed",
+        "this either",
+      ]
+  };
+  assert.deepEqual(format.parseAttachements(item, baseUrl, images, documents), result);
+});
+
+it('returns formated image even if no image was provide but only a highResImage', () => {
+  const result = {
+    "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500",
+    "highResImage": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img1800&size=1800",
+    "programme": "https://www.ersnet.org/assets/static?node=daa976116100734310f3",
+    "practicalInfo": "https://www.ersnet.org/assets/static?node=daa976116100734310f3",
+    "sponsor": [
+        {
+        "text": "this is the first string",
+        "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500"
+        },
+        {
+        "text": "this is the second string",
+        "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500"
+        },
+        {
+          "text": "this is the second string",
+        }
+      ],
+      "documents": false,
+      "arrayOfStrings": [
+        "should not be parsed",
+        "this either",
+      ]
+  };
+  assert.deepEqual(format.addImageFromHighResImage(itemWithoutImage), result);
+});
 
   it('does not format anything', () => {
     assert.deepEqual(format.parseAttachements(item, baseUrl), item);
