@@ -29,7 +29,10 @@ const item = {
   arrayOfStrings: [
     'should not be parsed',
     'this either',
-  ]
+  ],
+  _system: {
+    changeset: '12:3456'
+  }
 };
 const item2 = {
   title: 'Title to test | this should be removed',      
@@ -80,8 +83,8 @@ describe('Composition Util', () => {
     assert.equal(education.arrayOfObjects[0].info, '<p>test string</p>\n');
     assert.equal(scientific.body, '<h3>This is a title</h3>\n');
     assert.equal(scientific.arrayOfObjects[0].info, '<p>test string</p>\n');
-    assert.equal(education.image, 'https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500');
-    assert.equal(education.document, 'https://www.ersnet.org/assets/static?node=daa976116100734310f3');
+    assert.equal(education.image, 'https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456');
+    assert.equal(education.document, 'https://www.ersnet.org/assets/static?node=daa976116100734310f3&v=12:3456');
     assert.equal(education.someDate, '10 March, 2017');
     assert.deepEqual(education.flags, [{text: false, color: false}]);
     assert.equal(education.arrayOfStrings[0], 'should not be parsed');

@@ -1,6 +1,7 @@
 
 import parser from 'marked';
 import video from 'embed-video';
+import moment from 'moment';
 import sanitizeHtml from 'sanitize-html';
 import _ from 'lodash';
 const renderer = new parser.Renderer();
@@ -66,14 +67,16 @@ const parse = (value, key, raw = false) => {
  * returns the url of a document or an image
  * @param {string} baseUrl - the path to your node server used to server images and documents
  * @param {string} type - the type of assets (static or preview)
+ * @param {string} changeset - (optional) the changeset for CDN versioning if false provided uses a timestamp
  * @param {string} attachement - the node to query
  * @param {number} [mimetype] - (optional) e.g. image/jpeg
  * @param {number} [size] - (optional) the size of the image (width)
  * @return {string} - the fully qualified url
  */
-const attachementUrl = (baseUrl, type, attachement, size, mimetype) => {
+const attachementUrl = (baseUrl, type, changeset, attachement, size, mimetype) => {
   size = size || false;
   mimetype = mimetype || false;
+  changeset = changeset || moment().format('x');
 
   let qualifiedPath = '/' + type + '?node=' + attachement.id;
 
@@ -85,7 +88,7 @@ const attachementUrl = (baseUrl, type, attachement, size, mimetype) => {
     qualifiedPath += '&mimetype=' + mimetype;
   }
 
-  return baseUrl + qualifiedPath;
+  return baseUrl + qualifiedPath + `&v=${changeset}`;
 
 };
 
@@ -222,7 +225,7 @@ export default class Format {
    */
   addImageFromHighResImage(item) {
     if(!item.image && item.highResImage) {
-      item.image = `${item.highResImage.split('&')[0]}&name=img500&size=500`;
+      item.image = `${item.highResImage.split('&')[0]}&name=img500&size=500&v=${item._system.changeset}`;
     }
     return item;
   }
@@ -241,10 +244,11 @@ export default class Format {
     documents = documents || [];
 
     return _.mapValues(item, (v, k) => {
-      const p = baseUrl => type => (attachement, size) =>
-        attachementUrl(baseUrl, type, attachement, size);
-      const parsePreview = p(baseUrl)('preview');
-      const parseStatic = p(baseUrl)('static');
+      const p = baseUrl => type => changeset => (attachement, size) =>
+        attachementUrl(baseUrl, type, changeset, attachement, size);
+      const { changeset } = item._system || { changeset: false };
+      const parsePreview = p(baseUrl)('preview')(changeset);
+      const parseStatic = p(baseUrl)('static')(changeset);
 
       if (images.includes(k) && k === 'highResImage' && v) {
         return parsePreview(v, 1800);
@@ -259,7 +263,9 @@ export default class Format {
             return c;
           });
         }
-        if (k !== 'highResImage') { return parsePreview(v, 500); }
+        if (k !== 'highResImage') { 
+          return parsePreview(v, 500); 
+        }
       }
 
       if (documents.includes(k) && v) {
