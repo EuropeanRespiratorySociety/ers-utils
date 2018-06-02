@@ -5,7 +5,7 @@
   "main": "lib/library.min.js",
   "nyc": {
     "require": [
-      "babel-register"
+      "@babel/register"
     ],
     "reporter": [
       "lcov",
@@ -16,10 +16,10 @@
     "build": "webpack --env build --mode production",
     "dev": "webpack --progress --colors --watch --env dev --mode development",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
-    "test": "npm run eslint && nyc mocha --compilers js:babel-core/register --colors ./test/lib --recursive",
-    "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/lib --recursive",
-    "test:watch-composition": "mocha --compilers js:babel-core/register --colors -w ./test/lib/composition.test.js",
-    "test:watch-markdown": "mocha --compilers js:babel-core/register --colors -w ./test/lib/format.markdown.test.js",
+    "test": "npm run eslint && nyc mocha --compilers js:@babel/register --colors ./test/lib --recursive",
+    "test:watch": "mocha --compilers js:@babel/register --colors -w ./test/lib --recursive",
+    "test:watch-composition": "mocha --compilers js:@babel/register --colors -w ./test/lib/composition.test.js",
+    "test:watch-markdown": "mocha --compilers js:@babel/register --colors -w ./test/lib/format.markdown.test.js",
     "coverage": "nyc report --reporter text",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
@@ -42,8 +42,11 @@
   },
   "homepage": "https://github.com/EuropeanRespiratorySociety/ers-utils#readme",
   "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-core": "6.26.0",
+    "@babel/cli": "^7.0.0-beta.49",
+    "@babel/core": "^7.0.0-beta.49",
+    "@babel/preset-env": "^7.0.0-beta.49",
+    "@babel/preset-es2015": "^7.0.0-beta.49",
+    "@babel/register": "^7.0.0-beta.49",
     "babel-eslint": "8.2.3",
     "babel-loader": "8.0.0-beta.3",
     "babel-plugin-add-module-exports": "0.2.1",
