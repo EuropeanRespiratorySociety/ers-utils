@@ -7,7 +7,7 @@ const baseUrl = 'https://www.ersnet.org/assets';
 const images = ['image', 'highResImage', 'sponsor']
 const documents = ['practicalInfo', 'programme', 'documents']
 
-const composedBody = require('./composed-body.js');
+const composedBody = require('../mocks/composed-body');
 const item = {
   "image": {
     "ref": "node://18dbd4f08d5f428ba9c2/607e97e4474d46e40345/b6b2871b2d9cf6b4996b/daa976116100734310f3",
@@ -305,6 +305,7 @@ describe('Format Util (Attachements) for comosed body', () => {
       changeset: '12:3456'
     }
   };
+
   const res = format.parseAttachements(item, baseUrl, ['body'], documents);
 
   it('formats the images of the "composed" body', () => {
