@@ -77,18 +77,22 @@ describe('Composition Util', () => {
 
     assert.equal(education.typeColor, label);
     assert.equal(scientific.typeColor, label2);
+
     assert.equal(education.body, '<h3>This is a title</h3>\n');
     assert.isAtMost(education.shortLead.length, 145);
     assert.isTrue(education.shortLead.includes('...'), 145);
     assert.equal(education.arrayOfObjects[0].info, '<p>test string</p>\n');
+
     assert.equal(scientific.body, '<h3>This is a title</h3>\n');
     assert.equal(scientific.arrayOfObjects[0].info, '<p>test string</p>\n');
+
     assert.equal(education.image, 'https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456');
     assert.equal(education.document, 'https://www.ersnet.org/assets/static?node=daa976116100734310f3&v=12:3456');
     assert.equal(education.someDate, '10 March, 2017');
     assert.deepEqual(education.flags, [{text: false, color: false}]);
     assert.equal(education.arrayOfStrings[0], 'should not be parsed');
     assert.equal(education.arrayOfStrings[1], 'this either');
+
     assert.equal(scientific.arrayOfStrings[0], 'should not be parsed');
     assert.equal(scientific.arrayOfStrings[1], 'this either');
   });

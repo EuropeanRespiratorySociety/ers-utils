@@ -16,10 +16,10 @@
     "build": "webpack --env build --mode production",
     "dev": "webpack --progress --colors --watch --env dev --mode development",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
-    "test": "npm run eslint && nyc mocha --compilers js:@babel/register --colors ./test/lib --recursive",
-    "test:watch": "mocha --compilers js:@babel/register --colors -w ./test/lib --recursive",
-    "test:watch-composition": "mocha --compilers js:@babel/register --colors -w ./test/lib/composition.test.js",
-    "test:watch-markdown": "mocha --compilers js:@babel/register --colors -w ./test/lib/format.markdown.test.js",
+    "test": "npm run eslint && nyc mocha --require @babel/register --colors ./test/lib --recursive",
+    "test:watch": "mocha --require @babel/register --colors -w ./test/lib --recursive",
+    "test:watch-composition": "mocha --require @babel/register --colors -w ./test/lib/composition.test.js",
+    "test:watch-markdown": "mocha --require @babel/register --colors -w ./test/lib/format.markdown.test.js",
     "coverage": "nyc report --reporter text",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
@@ -58,9 +58,9 @@
     "eslint-loader": "2.0.0",
     "istanbul": "^0.4.5",
     "mocha": "5.2.0",
-    "nyc": "^12.0.1",
-    "webpack": "^4.6.0",
-    "webpack-cli": "^2.0.15",
+    "nyc": "^12.0.2",
+    "webpack": "^4.11.1",
+    "webpack-cli": "^3.0.3",
     "yargs": "^11.1.0"
   },
   "dependencies": {

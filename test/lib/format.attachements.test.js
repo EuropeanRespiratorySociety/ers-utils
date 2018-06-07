@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
-// const F = require('../../lib/library.min').Format;
-const F = require('../../lib/library').Format;
+const F = require('../../lib/library.min').Format;
+// const F = require('../../lib/library').Format;
 const format = new F();
 
 const baseUrl = 'https://www.ersnet.org/assets';
@@ -215,70 +215,70 @@ describe('Format Util (Attachements)', () => {
           changeset: '12:3456'
         }
     };
-  assert.deepEqual(format.parseAttachements(item, baseUrl, null, documents), result);
-});
+    assert.deepEqual(format.parseAttachements(item, baseUrl, [], documents), result);
+  });
 
-it('returns formated urls', () => {
-  const result = {
-    "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456",
-    "highResImage": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img1800&size=1800&v=12:3456",
-    "programme": "https://www.ersnet.org/assets/static?node=daa976116100734310f3&v=12:3456",
-    "practicalInfo": "https://www.ersnet.org/assets/static?node=daa976116100734310f3&v=12:3456",
-    "sponsor": [
-        {
-        "text": "this is the first string",
-        "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456"
-        },
-        {
-        "text": "this is the second string",
-        "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456"
-        },
-        {
+  it('returns formated urls', () => {
+    const result = {
+      "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456",
+      "highResImage": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img1800&size=1800&v=12:3456",
+      "programme": "https://www.ersnet.org/assets/static?node=daa976116100734310f3&v=12:3456",
+      "practicalInfo": "https://www.ersnet.org/assets/static?node=daa976116100734310f3&v=12:3456",
+      "sponsor": [
+          {
+          "text": "this is the first string",
+          "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456"
+          },
+          {
           "text": "this is the second string",
+          "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456"
+          },
+          {
+            "text": "this is the second string",
+          }
+        ],
+        "documents": false,
+        "arrayOfStrings": [
+          "should not be parsed",
+          "this either",
+        ],
+        _system:{
+          changeset: '12:3456'
         }
-      ],
-      "documents": false,
-      "arrayOfStrings": [
-        "should not be parsed",
-        "this either",
-      ],
-      _system:{
-        changeset: '12:3456'
-      }
-  };
-  assert.deepEqual(format.parseAttachements(item, baseUrl, images, documents), result);
-});
+    };
+    assert.deepEqual(format.parseAttachements(item, baseUrl, images, documents), result);
+  });
 
-it('returns formated image even if no image was provided but only a highResImage', () => {
-  const result = {
-    "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456",
-    "highResImage": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img1800&size=1800&v=12:3456",
-    "programme": "https://www.ersnet.org/assets/static?node=daa976116100734310f3&v=12:3456",
-    "practicalInfo": "https://www.ersnet.org/assets/static?node=daa976116100734310f3&v=12:3456",
-    "sponsor": [
-        {
-        "text": "this is the first string",
-        "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456"
-        },
-        {
-        "text": "this is the second string",
-        "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456"
-        },
-        {
+  it('returns formated image even if no image was provided but only a highResImage', () => {
+    const result = {
+      "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456",
+      "highResImage": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img1800&size=1800&v=12:3456",
+      "programme": "https://www.ersnet.org/assets/static?node=daa976116100734310f3&v=12:3456",
+      "practicalInfo": "https://www.ersnet.org/assets/static?node=daa976116100734310f3&v=12:3456",
+      "sponsor": [
+          {
+          "text": "this is the first string",
+          "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456"
+          },
+          {
           "text": "this is the second string",
+          "image": "https://www.ersnet.org/assets/preview?node=daa976116100734310f3&name=img500&size=500&v=12:3456"
+          },
+          {
+            "text": "this is the second string",
+          }
+        ],
+        "documents": false,
+        "arrayOfStrings": [
+          "should not be parsed",
+          "this either",
+        ],
+        _system:{
+          changeset: '12:3456'
         }
-      ],
-      "documents": false,
-      "arrayOfStrings": [
-        "should not be parsed",
-        "this either",
-      ],
-      _system:{
-        changeset: '12:3456'
-      }
-  };
-  assert.deepEqual(format.addImageFromHighResImage(itemImageFalse), result);
-});
+    };
+    assert.deepEqual(format.addImageFromHighResImage(itemImageFalse), result);
+  });
 
   it('does not format anything', () => {
     assert.deepEqual(format.parseAttachements(item, baseUrl), item);
@@ -296,7 +296,6 @@ it('returns formated image even if no image was provided but only a highResImage
     };
     assert.deepEqual(format.parseAttachements(item, baseUrl, images, documents), result);
   });
-
 });
 
 describe('Format Util (Attachements) for comosed body', () => {

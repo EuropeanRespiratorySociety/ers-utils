@@ -34,8 +34,12 @@ This is not fully functional as it gets mutated at every setps.
 
 Run test as follow:
 
-`$ mocha test/lib -w`
+`$ npm run test`
 
 ### Collaborate 
 I do not know who might need this, but if someone finds any interest some ERS logic could be abstracted further away...
+
+### Change log
+* 0.2.7 introduces recursive parsing of images (was true before) and documents (new)
+  * the following property are necessary: `image` and `document` all other ones are ignored
 

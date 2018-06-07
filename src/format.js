@@ -233,13 +233,13 @@ export default class Format {
    * Parse attachements (cloudcms way) and returns an object with
    * the url of available document and images well formated
    * @param {Object} item - the cloudcms Object
-   * @param {Object[]} [images] - array of image properties to parse (recursive)
+   * @param {Object[]} [recursive] - array of properties to parse recursively (since 0.2.7 can be documents)
    * @param {Object[]} [documents] - array of documents properties to parse
    * @return {Object}
    * @todo make documents recursive
    */
-  parseAttachements(item, baseUrl, images, documents) {
-    images = images || [];
+  parseAttachements(item, baseUrl, recursive, documents) {
+    recursive = recursive || [];
     documents = documents || [];
 
     return _.mapValues(item, (v, k) => {
@@ -249,11 +249,11 @@ export default class Format {
       const parsePreview = p(baseUrl)('preview')(changeset);
       const parseStatic = p(baseUrl)('static')(changeset);
 
-      if (images.includes(k) && k === 'highResImage' && v) {
+      if (recursive.includes(k) && k === 'highResImage' && v) {
         return parsePreview(v, 1800);
       }
 
-      if (images.includes(k)) {
+      if (recursive.includes(k)) {
         if (_.isArray(v)) {
           return _.map(v, c => {
             if (c.image) {
@@ -277,7 +277,7 @@ export default class Format {
       }
 
       // make sure to return false for those properties that were untouched
-      if (documents.includes(k) || images.includes(k)) {
+      if (documents.includes(k) || recursive.includes(k)) {
         return false;
       }
 
