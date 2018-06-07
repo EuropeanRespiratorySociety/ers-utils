@@ -1,7 +1,7 @@
 const assert = require('chai').assert;
 const F = require('../../lib/library.min').Format;
 const format = new F();
-const composedBody = require('./composed-body-example.json');
+const composedBody = require('./composed-body.js');
 
 describe('Format Util (Markdown parsing)', () => {
   const item = {
