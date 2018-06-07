@@ -77,7 +77,6 @@ const attachementUrl = (baseUrl, type, changeset, attachement, size, mimetype) =
   size = size || false;
   mimetype = mimetype || false;
   changeset = changeset || moment().format('x');
-
   let qualifiedPath = '/' + type + '?node=' + attachement.id;
 
   if (type === 'preview') {
@@ -260,6 +259,11 @@ export default class Format {
             if (c.image) {
               c.image = parsePreview(c.image, 500);
             }
+
+            if (c.document) {
+              c.document = parseStatic(c.document);
+            }
+
             return c;
           });
         }

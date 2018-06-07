@@ -1,6 +1,7 @@
 const assert = require('chai').assert;
 const F = require('../../lib/library.min').Format;
 const format = new F();
+const composedBody = require('./composed-body-example.json');
 
 describe('Format Util (Markdown parsing)', () => {
   const item = {
@@ -120,6 +121,15 @@ describe('Format Util (Markdown parsing)', () => {
     assert.equal(result.shortLead, 'This is an HTML string that needs to be transformed in a simple string.This is an HTML string that needs to be transformed in a simple...') // 70 characters
     assert.isAtMost(result.shortLead.length, 145);
     assert.isTrue(result.shortLead.includes('...'));
+  });
+
+  it('formats the markdown of the "composed" body', () => {
+    const childrenToParse = ['body'];
+    const item = {
+      body: composedBody.body
+    };
+    const parsed = format.parseContent(item, [], childrenToParse);
+    assert.equal(parsed.body[4].text, '<ul>\n<li>test</li>\n<li>test 2</li>\n<li>test 3</li>\n</ul>\n');
   });
 
 });

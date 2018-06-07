@@ -1,11 +1,13 @@
 const assert = require('chai').assert;
-const F = require('../../lib/library.min').Format;
-// const F = require('../../lib/library').Format;
+// const F = require('../../lib/library.min').Format;
+const F = require('../../lib/library').Format;
 const format = new F();
 
 const baseUrl = 'https://www.ersnet.org/assets';
 const images = ['image', 'highResImage', 'sponsor']
 const documents = ['practicalInfo', 'programme', 'documents']
+
+const composedBody = require('./composed-body-example.json');
 const item = {
   "image": {
     "ref": "node://18dbd4f08d5f428ba9c2/607e97e4474d46e40345/b6b2871b2d9cf6b4996b/daa976116100734310f3",
@@ -293,6 +295,26 @@ it('returns formated image even if no image was provided but only a highResImage
       "sponsor": []
     };
     assert.deepEqual(format.parseAttachements(item, baseUrl, images, documents), result);
+  });
+
+});
+
+describe('Format Util (Attachements) for comosed body', () => {
+  const item = {
+    body: composedBody.body,
+    _system: {
+      changeset: '12:3456'
+    }
+  };
+  const res = format.parseAttachements(item, baseUrl, ['body'], documents);
+
+  it('formats the images of the "composed" body', () => {
+    assert.equal(res.body[0].image, 'https://www.ersnet.org/assets/preview?node=ef19ecbf4da6738232ad&name=img500&size=500&v=12:3456');
+    assert.equal(res.body[2].image, 'https://www.ersnet.org/assets/preview?node=4106469bed49b1dcd20d&name=img500&size=500&v=12:3456');
+  });
+
+  it('formats the documents of the "composed" body', () => {
+    assert.equal(res.body[5].document, 'https://www.ersnet.org/assets/static?node=4106469bed49b1dcd20d&v=12:3456');
   });
 
 });
