@@ -1,11 +1,10 @@
-
 import parser from 'marked';
 import video from 'embed-video';
 import moment from 'moment';
 import sanitizeHtml from 'sanitize-html';
 import _ from 'lodash';
 const renderer = new parser.Renderer();
-
+/*eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
 // Markdown renderer configuration
 renderer.heading = (text, level) => `<h${level}>${text}</h${level}>\n`;
 renderer.paragraph = (text) => `<p>${text}</p>\n`;
@@ -52,13 +51,13 @@ const clean = (string) => {
   });
 };
 
-  /**
-   * Parse a value if it is one of ['info', 'text'] or returns untouched original
-   */
+/**
+ * Parse a value if it is one of ['info', 'text'] or returns untouched original
+ */
 const parse = (value, key, raw = false) => {
   if (_.indexOf(['info', 'text'], key) !== -1) {
     const r = parser(value);
-    return !raw ?  r : clean(r);
+    return !raw ? r : clean(r);
   }
   return value;
 };
@@ -158,7 +157,10 @@ export default class Format {
         };
       });
     }
-    if (_.isEmpty(item.flags)) item.flags.push({text: false, color: false});
+    if (_.isEmpty(item.flags)) item.flags.push({
+      text: false,
+      color: false
+    });
     return item;
   }
 
@@ -223,7 +225,7 @@ export default class Format {
    * @param {*} item - an already parsed Object
    */
   addImageFromHighResImage(item) {
-    if(!item.image && item.highResImage) {
+    if (!item.image && item.highResImage) {
       item.image = `${item.highResImage.split('&')[0]}&name=img500&size=500&v=${item._system.changeset}`;
     }
     return item;
@@ -233,42 +235,66 @@ export default class Format {
    * Parse attachements (cloudcms way) and returns an object with
    * the url of available document and images well formated
    * @param {Object} item - the cloudcms Object
-   * @param {Object[]} [recursive] - array of properties to parse recursively (since 0.2.7 can be documents)
+   * @param {Object[]} [properties] - array of properties to parse recursively (since 0.2.7 can be documents)
    * @param {Object[]} [documents] - array of documents properties to parse
+   * @param {Object} version - the changeset
    * @return {Object}
    * @todo make documents recursive
    */
-  parseAttachements(item, baseUrl, recursive, documents) {
-    recursive = recursive || [];
+  parseAttachements(item, baseUrl, properties, documents, version) {
+    properties = properties || [];
     documents = documents || [];
-
+    const {
+      changeset
+    } = item._system || {
+      changeset: version ? version : false
+    };
     return _.mapValues(item, (v, k) => {
       const p = baseUrl => type => changeset => (attachement, size) =>
         attachementUrl(baseUrl, type, changeset, attachement, size);
-      const { changeset } = item._system || { changeset: false };
+
       const parsePreview = p(baseUrl)('preview')(changeset);
       const parseStatic = p(baseUrl)('static')(changeset);
 
-      if (recursive.includes(k) && k === 'highResImage' && v) {
+      if (properties.includes(k) && k === 'highResImage' && v) {
         return parsePreview(v, 1800);
       }
 
-      if (recursive.includes(k)) {
+      if (properties.includes(k)) {
         if (_.isArray(v)) {
           return _.map(v, c => {
             if (c.image) {
               c.image = parsePreview(c.image, 500);
             }
 
+            if (c.imageBig) {
+              c.imageBig = parsePreview(c.imageBig, 500);
+            }
+
+            if (c.imageSmall) {
+              c.imageSmall = parsePreview(c.imageSmall, 500);
+            }
+
             if (c.document) {
               c.document = parseStatic(c.document);
+            }
+
+            if (c.panels) {
+              c.panels = _.map(c.panels, panel => {
+                return this.parseAttachements(panel, baseUrl, properties, documents, changeset);
+              });
             }
 
             return c;
           });
         }
-        if (k !== 'highResImage') { 
-          return parsePreview(v, 500); 
+        if (k === 'question') {
+          v.imageBig ? v.imageBig = parsePreview(v.imageBig, 500) : false;
+          v.imageSmall ? v.imageSmall = parsePreview(v.imageSmall, 500) : false;
+          return v;
+        }
+        if (k !== 'highResImage') {
+          return parsePreview(v, 500);
         }
       }
 
@@ -277,7 +303,7 @@ export default class Format {
       }
 
       // make sure to return false for those properties that were untouched
-      if (documents.includes(k) || recursive.includes(k)) {
+      if (documents.includes(k) || properties.includes(k)) {
         return false;
       }
 
@@ -308,7 +334,9 @@ export default class Format {
   serializeQuery(obj) {
     let r = [];
 
-    _.mapValues(obj, (v, k) => { r.push(k + '=' + v); });
+    _.mapValues(obj, (v, k) => {
+      r.push(k + '=' + v);
+    });
     return '?' + r.join('&');
   }
 
@@ -344,4 +372,3 @@ export default class Format {
   }
 
 }
-
