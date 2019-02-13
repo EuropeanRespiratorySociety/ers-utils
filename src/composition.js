@@ -32,14 +32,12 @@ export default class Composition {
       setScientificTypeColor,
       setEducationTypeColor,
       parseAttachements,
-      type === 'raw'
-      ? raw
-      : type === 'markdown'
-      ? item => item
-      : markDownToHtml
+      type === 'raw' ?
+      raw :
+      type === 'markdown' ?
+      item => item :
+      markDownToHtml
     );
     /* eslint-enable indent */
   }
 }
-
-
