@@ -61,7 +61,7 @@
     "nyc": "^12.0.2",
     "webpack": "^4.11.1",
     "webpack-cli": "^3.0.3",
-    "yargs": "^12.0.1"
+    "yargs": "^13.2.1"
   },
   "dependencies": {
     "embed-video": "^2.0.4",
