@@ -55,7 +55,7 @@ const clean = (string) => {
  * Parse a value if it is one of ['info', 'text'] or returns untouched original
  */
 const parse = (value, key, raw = false) => {
-  if (_.indexOf(['info', 'text'], key) !== -1) {
+  if (_.indexOf(['info', 'text', 'description', 'comment'], key) !== -1) {
     const r = parser(value);
     return !raw ? r : clean(r);
   }
@@ -179,18 +179,34 @@ export default class Format {
   /**
    * Parse markdown to html
    * @param {Object} item
-   * @param {Object[]} fields - Fields that need parsing
-   * @param {Object[]|Object} [subfileds] - subfields that need parsing
+   * @param {Array} fields - Fields that need parsing
+   * @param {Array|Object} [subfields] - subfields that need parsing
+   * @param {Array} recursive - Fields that need recursivly
    * @param {boolean} [raw] - html or raw text
    * @return {Object}
    */
-  parseContent(item, fields, subfields, raw) {
+  parseContent(item, fields, subfields, recursive, raw) {
     subfields = subfields || [];
+    recursive = recursive || [];
     raw = raw || false;
-
     return _.mapValues(item, (v, k) => {
-      if (fields.indexOf(k) !== -1 && v) {
-        return !raw ? parser(v) : clean(parser(v));
+      if (recursive.includes(k)) {
+        if (_.isArray(v) && k !== 'tabs') {
+          return _.map(v, c => {
+            if (c.panels) {
+              c.panels = _.map(c.panels, panel => {
+                return this.parseContent(panel, fields, subfields, recursive, raw);
+              });
+            }
+            return c;
+          });
+        }
+      }
+
+      if (fields.includes(k) && v) {
+        if (fields.includes(k) && v) {
+          return !raw ? parser(v) : clean(parser(v));
+        }
       }
 
       if (_.indexOf(subfields, k) !== -1 &&

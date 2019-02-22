@@ -20,7 +20,7 @@
     "test:watch": "mocha --require @babel/register --colors -w ./test/lib --recursive",
     "test:watch-composition": "mocha --require @babel/register --colors -w ./test/lib/composition.test.js",
     "test:watch-markdown": "mocha --require @babel/register --colors -w ./test/lib/format.markdown.test.js",
-    "test:formatAttachements": "mocha --require @babel/register --colors ./test/lib/format.attachements.test.js",
+    "test:formatMarkdown": "mocha --require @babel/register --colors ./test/lib/format.markdown.test.js",
     "coverage": "nyc report --reporter text",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
