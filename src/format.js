@@ -1,8 +1,8 @@
-import parser from 'marked';
-import video from 'embed-video';
-import moment from 'moment';
-import sanitizeHtml from 'sanitize-html';
-import _ from 'lodash';
+const parser = require('marked');
+const video = require('embed-video');
+const moment = require('moment');
+const sanitizeHtml = require('sanitize-html');
+const _ = require('lodash');
 const renderer = new parser.Renderer();
 /*eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
 // Markdown renderer configuration
@@ -106,7 +106,148 @@ const typeColor = (type, types, label) => {
   return false;
 };
 
-export default class Format {
+/**
+ * Parse markdown to html
+ * @param {Object} item
+ * @param {Array} fields - Fields that need parsing
+ * @param {Array|Object} [subfields] - subfields that need parsing
+ * @param {Array} recursive - Fields that need recursivly
+ * @param {boolean} [raw] - html or raw text
+ * @return {Object}
+ */
+const parseContent = (item, fields, subfields, recursive, raw) => {
+  subfields = subfields || [];
+  recursive = recursive || [];
+  raw = raw || false;
+
+  return _.mapValues(item, (v, k) => {
+    const pc = (item, fields, subfields, recursive, raw) =>
+      parseContent(item, fields, subfields, recursive, raw);
+    const recursiveParseContent = pc;
+
+    if (recursive.includes(k)) {
+      if (_.isArray(v) && k !== 'tabs') {
+        return _.map(v, c => {
+          if (c.panels) {
+            c.panels = _.map(c.panels, panel => {
+              return recursiveParseContent(panel, fields, subfields, recursive, raw);
+            });
+          }
+          return c;
+        });
+      }
+    }
+
+    if (fields.includes(k) && v) {
+      if (fields.includes(k) && v) {
+        return !raw ? parser(v) : clean(parser(v));
+      }
+    }
+
+    if (_.indexOf(subfields, k) !== -1 &&
+      !_.isArray(v) &&
+      v) {
+      return _.mapValues(v, (v, k) => parse(v, k, raw));
+    }
+
+    if (_.indexOf(subfields, k) !== -1 &&
+      _.isArray(v) &&
+      v) {
+      return _.map(v, v => {
+        return _.mapValues(v, (v, k) => parse(v, k, raw));
+      });
+    }
+    return v;
+  });
+};
+
+/**
+ * Parse attachements (cloudcms way) and returns an object with
+ * the url of available document and images well formated
+ * @param {Object} item - the cloudcms Object
+ * @param {Object[]} [properties] - array of properties to parse recursively (since 0.2.7 can be documents)
+ * @param {Object[]} [documents] - array of documents properties to parse
+ * @param {Object} version - the changeset
+ * @return {Object}
+ * @todo make documents recursive
+ */
+const parseAttachements = (item, baseUrl, properties, documents, version) => {
+  properties = properties || [];
+  documents = documents || [];
+  const {
+    changeset
+  } = item._system || {
+    changeset: version ? version : false
+  };
+
+  return _.mapValues(item, (v, k) => {
+    const p = baseUrl => type => changeset => (attachement, size) =>
+      attachementUrl(baseUrl, type, changeset, attachement, size);
+    const parsePreview = p(baseUrl)('preview')(changeset);
+    const parseStatic = p(baseUrl)('static')(changeset);
+    const pa = (item, baseUrl, properties, documents, version) =>
+      parseAttachements(item, baseUrl, properties, documents, version);
+    const recursiveParseAttachements = pa;
+
+    if (properties.includes(k) && k === 'highResImage' && v) {
+      return parsePreview(v, 1800);
+    }
+
+    if (properties.includes(k)) {
+      if (_.isArray(v)) {
+        return _.map(v, c => {
+          if (c.image) {
+            c.image = parsePreview(c.image, 500);
+          }
+
+          if (c.imageBig) {
+            c.imageBig = parsePreview(c.imageBig, 500);
+          }
+
+          if (c.imageSmall) {
+            c.imageSmall = parsePreview(c.imageSmall, 500);
+          }
+
+          if (c.document) {
+            c.document = parseStatic(c.document);
+          }
+
+          if (c.panels) {
+            c.panels = _.map(c.panels, panel => {
+              return recursiveParseAttachements(panel, baseUrl, properties, documents, changeset);
+            });
+          }
+
+          return c;
+        });
+      }
+      if (k === 'question') {
+        v.imageBig ? v.imageBig = parsePreview(v.imageBig, 500) : false;
+        v.imageSmall ? v.imageSmall = parsePreview(v.imageSmall, 500) : false;
+        return v;
+      }
+      if (k !== 'highResImage') {
+        return parsePreview(v, 500);
+      }
+    }
+
+    if (documents.includes(k) && v) {
+      return parseStatic(v);
+    }
+
+    // make sure to return false for those properties that were untouched
+    if (documents.includes(k) || properties.includes(k)) {
+      return false;
+    }
+
+    // make sure to return all other values untouched
+    return v;
+  });
+};
+
+
+
+module.exports = class Format {
 
   constructor() {
     /**
@@ -117,6 +258,8 @@ export default class Format {
     this.typeColor = typeColor;
     this.truncate = truncate;
     this.clean = clean;
+    this.parseContent = parseContent;
+    this.parseAttachements = parseAttachements;
   }
 
   /**
@@ -177,56 +320,6 @@ export default class Format {
   }
 
   /**
-   * Parse markdown to html
-   * @param {Object} item
-   * @param {Array} fields - Fields that need parsing
-   * @param {Array|Object} [subfields] - subfields that need parsing
-   * @param {Array} recursive - Fields that need recursivly
-   * @param {boolean} [raw] - html or raw text
-   * @return {Object}
-   */
-  parseContent(item, fields, subfields, recursive, raw) {
-    subfields = subfields || [];
-    recursive = recursive || [];
-    raw = raw || false;
-    return _.mapValues(item, (v, k) => {
-      if (recursive.includes(k)) {
-        if (_.isArray(v) && k !== 'tabs') {
-          return _.map(v, c => {
-            if (c.panels) {
-              c.panels = _.map(c.panels, panel => {
-                return this.parseContent(panel, fields, subfields, recursive, raw);
-              });
-            }
-            return c;
-          });
-        }
-      }
-
-      if (fields.includes(k) && v) {
-        if (fields.includes(k) && v) {
-          return !raw ? parser(v) : clean(parser(v));
-        }
-      }
-
-      if (_.indexOf(subfields, k) !== -1 &&
-        !_.isArray(v) &&
-        v) {
-        return _.mapValues(v, (v, k) => parse(v, k, raw));
-      }
-
-      if (_.indexOf(subfields, k) !== -1 &&
-        _.isArray(v) &&
-        v) {
-        return _.map(v, v => {
-          return _.mapValues(v, (v, k) => parse(v, k, raw));
-        });
-      }
-      return v;
-    });
-  }
-
-  /**
    * Map an item to the content Model
    * @param {Object} Model
    * @param {Object} item
@@ -245,87 +338,6 @@ export default class Format {
       item.image = `${item.highResImage.split('&')[0]}&name=img500&size=500&v=${item._system.changeset}`;
     }
     return item;
-  }
-
-  /**
-   * Parse attachements (cloudcms way) and returns an object with
-   * the url of available document and images well formated
-   * @param {Object} item - the cloudcms Object
-   * @param {Object[]} [properties] - array of properties to parse recursively (since 0.2.7 can be documents)
-   * @param {Object[]} [documents] - array of documents properties to parse
-   * @param {Object} version - the changeset
-   * @return {Object}
-   * @todo make documents recursive
-   */
-  parseAttachements(item, baseUrl, properties, documents, version) {
-    properties = properties || [];
-    documents = documents || [];
-    const {
-      changeset
-    } = item._system || {
-      changeset: version ? version : false
-    };
-    return _.mapValues(item, (v, k) => {
-      const p = baseUrl => type => changeset => (attachement, size) =>
-        attachementUrl(baseUrl, type, changeset, attachement, size);
-
-      const parsePreview = p(baseUrl)('preview')(changeset);
-      const parseStatic = p(baseUrl)('static')(changeset);
-
-      if (properties.includes(k) && k === 'highResImage' && v) {
-        return parsePreview(v, 1800);
-      }
-
-      if (properties.includes(k)) {
-        if (_.isArray(v)) {
-          return _.map(v, c => {
-            if (c.image) {
-              c.image = parsePreview(c.image, 500);
-            }
-
-            if (c.imageBig) {
-              c.imageBig = parsePreview(c.imageBig, 500);
-            }
-
-            if (c.imageSmall) {
-              c.imageSmall = parsePreview(c.imageSmall, 500);
-            }
-
-            if (c.document) {
-              c.document = parseStatic(c.document);
-            }
-
-            if (c.panels) {
-              c.panels = _.map(c.panels, panel => {
-                return this.parseAttachements(panel, baseUrl, properties, documents, changeset);
-              });
-            }
-
-            return c;
-          });
-        }
-        if (k === 'question') {
-          v.imageBig ? v.imageBig = parsePreview(v.imageBig, 500) : false;
-          v.imageSmall ? v.imageSmall = parsePreview(v.imageSmall, 500) : false;
-          return v;
-        }
-        if (k !== 'highResImage') {
-          return parsePreview(v, 500);
-        }
-      }
-
-      if (documents.includes(k) && v) {
-        return parseStatic(v);
-      }
-
-      // make sure to return false for those properties that were untouched
-      if (documents.includes(k) || properties.includes(k)) {
-        return false;
-      }
-
-      // make sure to return all other values untouched
-      return v;
-    });
   }
 
   /**
@@ -387,4 +399,4 @@ export default class Format {
     return _.sortBy(source, filter);
   }
 
-}
+};

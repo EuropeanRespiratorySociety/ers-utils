@@ -1,13 +1,13 @@
-import Fp from './fp';
-import Format from './format';
-import DateUtils from './date';
-import _ from 'lodash';
+const Fp = require('./fp');
+const Format = require('./format');
+const DateUtils = require('./date');
+const _ = require('lodash');
 
 const fp = new Fp();
 const date = new DateUtils();
 const format = new Format();
-
-export default class Composition {
+/* eslint-disable no-unused-vars */
+module.exports = class Composition {
   /**
    * Formats properties of an item/article.
    * This method is curried and takes an item/article when it is called
@@ -40,4 +40,5 @@ export default class Composition {
     );
     /* eslint-enable indent */
   }
-}
+  /* eslint-disable no-unused-vars */
+};

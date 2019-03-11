@@ -4,12 +4,12 @@
  * map(), filter() and reduce() when available, this
  * are helpers that we add when becoming useful
  */
-export default class Fp {
+module.exports = class Fp {
 
   compose(fn, ...rest) {
-    return rest.length === 0 
-      ? fn 
-      : (...args) => {
+    return rest.length === 0 ?
+      fn :
+      (...args) => {
         return fn(this.compose(...rest)(...args));
       };
   }
@@ -29,7 +29,9 @@ export default class Fp {
     let results = [];
 
     array.forEach(subArray => {
-      subArray.forEach(i => { results.push(i); });
+      subArray.forEach(i => {
+        results.push(i);
+      });
     });
     return results;
   }
@@ -48,4 +50,4 @@ export default class Fp {
     }
     return results;
   }
-}
+};

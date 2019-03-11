@@ -1,5 +1,5 @@
-import moment from 'moment';
-import _ from 'lodash';
+const moment = require('moment');
+const _ = require('lodash');
 
 /**
  * @param {string} wouldBeDate
@@ -11,14 +11,14 @@ const isValidDate = (wouldBeDate) => {
 };
 
 /**
-* Format a date according to the ERS Corporate Guidlines
-* 12 February, 2017 || 12-14 Februrary, 2017 || 31 March - 3 April, 2017
-*
-* @param {string} start - format: DD/MM/YYYY
-* @param {string} end - format: DD/MM/YYYY
-* @param {boolean} timestamp
-* @returns {string}
-*/
+ * Format a date according to the ERS Corporate Guidlines
+ * 12 February, 2017 || 12-14 Februrary, 2017 || 31 March - 3 April, 2017
+ *
+ * @param {string} start - format: DD/MM/YYYY
+ * @param {string} end - format: DD/MM/YYYY
+ * @param {boolean} timestamp
+ * @returns {string}
+ */
 const ersDate = (start, end, timestamp) => {
   end = end || false;
   timestamp = timestamp || false;
@@ -81,7 +81,7 @@ const dates = (start, end) => {
   return false;
 };
 
-export default class DateUtils {
+module.exports = class DateUtils {
 
   constructor() {
     /**
@@ -97,12 +97,12 @@ export default class DateUtils {
   }
 
   /**
-  * Adds properties to handle the calendar
-  * @param {Object} item
-  * @returns {Object}
-  */
+   * Adds properties to handle the calendar
+   * @param {Object} item
+   * @returns {Object}
+   */
   calendar(item) {
-    if(item.eventDate) {
+    if (item.eventDate) {
       const date = moment(item.eventDate, 'MM/DD/YYYY');
       const calendar = {
         calendar: {
@@ -111,7 +111,7 @@ export default class DateUtils {
           timestamp: date.unix()
         }
       };
-  
+
       return Object.assign(item, calendar);
     }
     return item;
@@ -137,7 +137,9 @@ export default class DateUtils {
    * @param {Object} item
    * @return {Object}
    */
-  setDates(item) { return Object.assign({}, item, dates(item.eventDate, item.eventEndDate)); }
+  setDates(item) {
+    return Object.assign({}, item, dates(item.eventDate, item.eventEndDate));
+  }
 
   /**
    * Parse fields that have a date/dates
@@ -150,7 +152,7 @@ export default class DateUtils {
       if (_.indexOf(properties, k) !== -1) {
         return ersDate(v);
       }
-      if (!_.isArray(v) && !_.isString(v) && !_.isBoolean(v)) {
+      if (!_.isArray(v) && !_.isString(v) && !_.isBoolean(v) && !_.isNumber(v)) {
         return _.mapValues(v, (v, k) => {
           return _.indexOf(properties, k) !== -1 ?
             ersDate(v) :
@@ -159,14 +161,14 @@ export default class DateUtils {
       }
       if (_.isArray(v)) {
         /* eslint-disable indent */
-        return typeof v[0] === 'string' 
-        ? v
-        : v.map(v => {
-          return _.mapValues(v, (v, k) =>
-            _.indexOf(properties, k) !== -1 ?
-            ersDate(v) :
-            v);
-        });
+        return typeof v[0] === 'string' ?
+          v :
+          v.map(v => {
+            return _.mapValues(v, (v, k) =>
+              _.indexOf(properties, k) !== -1 ?
+              ersDate(v) :
+              v);
+          });
       }
       /* eslint-enable indent */
       return v;
@@ -180,7 +182,7 @@ export default class DateUtils {
    */
   isAlreadyPassed(date) {
     date = moment(date, 'MM/DD/YYYY');
-    if(date.isValid()) {
+    if (date.isValid()) {
       let now = moment();
       return date < now;
     }
@@ -232,9 +234,9 @@ export default class DateUtils {
       .filter(i => !this.isAlreadyPassed(i.eventDate))
       .map(i => this.calendar(i))
       .sort((a, b) => a.calendar.timestamp - b.calendar.timestamp);
-    
+
     if (reverse) result.reverse();
-    
+
     return result;
-  }    
-}
+  }
+};
