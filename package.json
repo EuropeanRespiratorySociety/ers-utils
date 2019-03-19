@@ -1,6 +1,6 @@
 {
   "name": "ers-utils",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "European Respiratory Society utils library for preparing and parsing content",
   "main": "lib/library.min.js",
   "nyc": {
