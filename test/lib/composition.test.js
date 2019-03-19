@@ -76,107 +76,45 @@ const config = {
 
 const configCmeOnline = {
   toParse: [
-    'body',
     'leadParagraph',
-    'references',
-    'popUp',
-    'cancellationPolicy',
-    'travelInfo',
-    'technicalInfo',
     'description',
     'references'
   ],
   toParseRecursively: ['cmeOnlineModule'],
   childrenToParse: [
-    'venue',
-    'suggestedAccommodation',
-    'ebusVenues',
-    'bursaryApplication',
     'tabs',
     'question'
   ],
   images: [
     'image',
-    'highResImage',
-    'sponsor',
-    'sponsorsAlliances',
     'cmeOrganisers',
     'cmeOnlineModule',
     'tabs',
     'question'
   ],
-  documents: [
-    'programme',
-    'practicalInfo',
-    'disclosure',
-    'documents',
-    'rulesAndRegulations'
-  ],
-  dateProperties: [
-    'notificationOfResults',
-    'extendedDeadline',
-    'earlybirdDeadline',
-    'openingDate',
-    'applicationDeadline',
-    'applicationDeadline2',
-    'deadline'
-  ],
+  documents: [],
+  dateProperties: [],
   lead: [
     'title',
     'slug',
     'leadParagraph',
-    'body',
-    'category',
-    'category2',
-    'author',
-    'type',
-    'selfAssessmentType',
     'cmeType',
     'cmeCategory',
     'cmeOrganisers',
-    'eventDate',
     'diseases',
-    'appCommunity',
-    'communityPostStatus',
     'methods',
-    'eventEndDate',
-    'eventLocation',
-    'nonErsCalendarItem',
     'createdOn',
-    'ersEndorsedEvent',
-    'ersDeadline',
-    'fullyBooked',
     'image',
-    'itemImageAlignment',
-    'itemImageBackgroundSize',
-    'imageSize',
-    'highResImage',
-    'video',
-    'imageId',
-    'externalLink',
-    'registerButton',
+    'imageDescription',
     'url',
     'uri',
-    'availableOnHomepage',
-    'mainNews',
-    'membersOnly',
-    'doi',
     '_system',
     '_doc'
   ],
-  educationTypes: [
-    'ERS Course',
-    'ERS Online course',
-    'e-learning',
-    'ERS Skill workshop',
-    'ERS Skills course',
-    'ERS Endorsed activity',
-    'ERS Training programme',
-    'Hands-on'
-  ],
-  scientificTypes: ['Long Term', 'Short Term', 'Summit', 'Research Seminar'],
-  sci: 'label-scientific',
-  edu: 'label-school',
+  educationTypes: [],
+  scientificTypes: [],
+  sci: '',
+  edu: '',
   baseUrl: 'https://www.ersnet.org/assets',
   apiUrl: 'https://api.ersnet.org'
 };
@@ -482,15 +420,15 @@ describe('Composition Util', () => {
             "title": "TabPanelQCM1",
             "description": "<p>Published 6 in the <em>European Respiratory Journal</em>.</p>\n<ul>\n<li><a href=\"http://erj.ersjournals.com/content/52/1/1800740\">Access the article</a> </li>\n</ul>\n",
             "media": "image",
-            "imageBig": "https://www.ersnet.org/assets/preview?node=33268da51d8e77cc3a4d&name=img500&size=500&v=247705:c84fd5f01c8d521b8b8b",
-            "imageSmall": "https://www.ersnet.org/assets/preview?node=3f2d7df65bfadd61856e&name=img500&size=500&v=247705:c84fd5f01c8d521b8b8b"
+            "imageBig": "https://www.ersnet.org/assets/preview?node=33268da51d8e77cc3a4d&name=img800&size=800&v=247705:c84fd5f01c8d521b8b8b",
+            "imageSmall": "https://www.ersnet.org/assets/preview?node=3f2d7df65bfadd61856e&name=img400&size=400&v=247705:c84fd5f01c8d521b8b8b"
           }, {
             "title": "TabPanelQCM2",
             "description": "<p>Published 7 in the <em>European Respiratory Journal</em>.</p>\n<ul>\n<li><a href=\"http://erj.ersjournals.com/content/52/1/1800740\">Access the article</a> </li>\n</ul>\n",
             "media": "video",
             "mediaUrl": "http://urlTabQcm2",
-            "imageBig": "https://www.ersnet.org/assets/preview?node=3f2d7df65bfadd61856e&name=img500&size=500&v=247705:c84fd5f01c8d521b8b8b",
-            "imageSmall": "https://www.ersnet.org/assets/preview?node=bf6ef8bf23d45ff2a740&name=img500&size=500&v=247705:c84fd5f01c8d521b8b8b"
+            "imageBig": "https://www.ersnet.org/assets/preview?node=3f2d7df65bfadd61856e&name=img800&size=800&v=247705:c84fd5f01c8d521b8b8b",
+            "imageSmall": "https://www.ersnet.org/assets/preview?node=bf6ef8bf23d45ff2a740&name=img400&size=400&v=247705:c84fd5f01c8d521b8b8b"
           }]
         }, {
           "panelType": "question",
@@ -507,8 +445,8 @@ describe('Composition Util', () => {
               "isCorrect": false
             }],
             "media": "image",
-            "imageBig": "https://www.ersnet.org/assets/preview?node=16ebc60401402b3b0a10&name=img500&size=500&v=247705:c84fd5f01c8d521b8b8b",
-            "imageSmall": "https://www.ersnet.org/assets/preview?node=007ca17164dea222df6f&name=img500&size=500&v=247705:c84fd5f01c8d521b8b8b",
+            "imageBig": "https://www.ersnet.org/assets/preview?node=16ebc60401402b3b0a10&name=img800&size=800&v=247705:c84fd5f01c8d521b8b8b",
+            "imageSmall": "https://www.ersnet.org/assets/preview?node=007ca17164dea222df6f&name=img400&size=400&v=247705:c84fd5f01c8d521b8b8b",
             "comment": "<p>Published 10 in the <em>European Respiratory Journal</em>.</p>\n<ul>\n<li><a href=\"http://erj.ersjournals.com/content/52/1/1800740\">Access the article</a> </li>\n</ul>\n"
           }
         }]

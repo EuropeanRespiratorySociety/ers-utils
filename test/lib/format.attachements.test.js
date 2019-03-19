@@ -501,15 +501,15 @@ describe('Format Util (Attachements) to image with recursivity', () => {
           "tabs": [{
               "title": "TabPanelQCM1",
               "media": "image",
-              "imageBig": "https://www.ersnet.org/assets/preview?node=33268da51d8e77cc3a4d&name=img500&size=500&v=12:3456",
-              "imageSmall": "https://www.ersnet.org/assets/preview?node=3f2d7df65bfadd61856e&name=img500&size=500&v=12:3456"
+              "imageBig": "https://www.ersnet.org/assets/preview?node=33268da51d8e77cc3a4d&name=img800&size=800&v=12:3456",
+              "imageSmall": "https://www.ersnet.org/assets/preview?node=3f2d7df65bfadd61856e&name=img400&size=400&v=12:3456"
             },
             {
               "title": "TabPanelQCM2",
               "media": "video",
               "mediaUrl": "http://urlTabQcm2",
-              "imageBig": "https://www.ersnet.org/assets/preview?node=3f2d7df65bfadd61856e&name=img500&size=500&v=12:3456",
-              "imageSmall": "https://www.ersnet.org/assets/preview?node=bf6ef8bf23d45ff2a740&name=img500&size=500&v=12:3456"
+              "imageBig": "https://www.ersnet.org/assets/preview?node=3f2d7df65bfadd61856e&name=img800&size=800&v=12:3456",
+              "imageSmall": "https://www.ersnet.org/assets/preview?node=bf6ef8bf23d45ff2a740&name=img400&size=400&v=12:3456"
             }
           ]
         }]
@@ -586,8 +586,8 @@ describe('Format Util (Attachements) to image with recursivity', () => {
               }
             ],
             "media": "image",
-            "imageBig": "https://www.ersnet.org/assets/preview?node=16ebc60401402b3b0a10&name=img500&size=500&v=12:3456",
-            "imageSmall": "https://www.ersnet.org/assets/preview?node=007ca17164dea222df6f&name=img500&size=500&v=12:3456"
+            "imageBig": "https://www.ersnet.org/assets/preview?node=16ebc60401402b3b0a10&name=img800&size=800&v=12:3456",
+            "imageSmall": "https://www.ersnet.org/assets/preview?node=007ca17164dea222df6f&name=img400&size=400&v=12:3456"
           }
         }]
       }],
@@ -657,15 +657,15 @@ describe('Format Util (Attachements) to image with recursivity', () => {
             "title": "TabPanelQCM1",
             "description": "Published 6 in the *European Respiratory Journal*.\n* [Access the article](http://erj.ersjournals.com/content/52/1/1800740) ",
             "media": "image",
-            "imageBig": "https://www.ersnet.org/assets/preview?node=33268da51d8e77cc3a4d&name=img500&size=500&v=247705:c84fd5f01c8d521b8b8b",
-            "imageSmall": "https://www.ersnet.org/assets/preview?node=3f2d7df65bfadd61856e&name=img500&size=500&v=247705:c84fd5f01c8d521b8b8b"
+            "imageBig": "https://www.ersnet.org/assets/preview?node=33268da51d8e77cc3a4d&name=img800&size=800&v=247705:c84fd5f01c8d521b8b8b",
+            "imageSmall": "https://www.ersnet.org/assets/preview?node=3f2d7df65bfadd61856e&name=img400&size=400&v=247705:c84fd5f01c8d521b8b8b"
           }, {
             "title": "TabPanelQCM2",
             "description": "Published 7 in the *European Respiratory Journal*.\n* [Access the article](http://erj.ersjournals.com/content/52/1/1800740) ",
             "media": "video",
             "mediaUrl": "http://urlTabQcm2",
-            "imageBig": "https://www.ersnet.org/assets/preview?node=3f2d7df65bfadd61856e&name=img500&size=500&v=247705:c84fd5f01c8d521b8b8b",
-            "imageSmall": "https://www.ersnet.org/assets/preview?node=bf6ef8bf23d45ff2a740&name=img500&size=500&v=247705:c84fd5f01c8d521b8b8b"
+            "imageBig": "https://www.ersnet.org/assets/preview?node=3f2d7df65bfadd61856e&name=img800&size=800&v=247705:c84fd5f01c8d521b8b8b",
+            "imageSmall": "https://www.ersnet.org/assets/preview?node=bf6ef8bf23d45ff2a740&name=img400&size=400&v=247705:c84fd5f01c8d521b8b8b"
           }]
         }, {
           "panelType": "question",
@@ -682,8 +682,8 @@ describe('Format Util (Attachements) to image with recursivity', () => {
               "isCorrect": false
             }],
             "media": "image",
-            "imageBig": "https://www.ersnet.org/assets/preview?node=16ebc60401402b3b0a10&name=img500&size=500&v=247705:c84fd5f01c8d521b8b8b",
-            "imageSmall": "https://www.ersnet.org/assets/preview?node=007ca17164dea222df6f&name=img500&size=500&v=247705:c84fd5f01c8d521b8b8b",
+            "imageBig": "https://www.ersnet.org/assets/preview?node=16ebc60401402b3b0a10&name=img800&size=800&v=247705:c84fd5f01c8d521b8b8b",
+            "imageSmall": "https://www.ersnet.org/assets/preview?node=007ca17164dea222df6f&name=img400&size=400&v=247705:c84fd5f01c8d521b8b8b",
             "comment": "Published 10 in the *European Respiratory Journal*.\n* [Access the article](http://erj.ersjournals.com/content/52/1/1800740) "
           }
         }]
