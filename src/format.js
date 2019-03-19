@@ -201,11 +201,11 @@ const parseAttachements = (item, baseUrl, properties, documents, version) => {
           }
 
           if (c.imageBig) {
-            c.imageBig = parsePreview(c.imageBig, 500);
+            c.imageBig = parsePreview(c.imageBig, 800);
           }
 
           if (c.imageSmall) {
-            c.imageSmall = parsePreview(c.imageSmall, 500);
+            c.imageSmall = parsePreview(c.imageSmall, 400);
           }
 
           if (c.document) {
@@ -222,8 +222,8 @@ const parseAttachements = (item, baseUrl, properties, documents, version) => {
         });
       }
       if (k === 'question') {
-        v.imageBig ? v.imageBig = parsePreview(v.imageBig, 500) : false;
-        v.imageSmall ? v.imageSmall = parsePreview(v.imageSmall, 500) : false;
+        v.imageBig ? v.imageBig = parsePreview(v.imageBig, 800) : false;
+        v.imageSmall ? v.imageSmall = parsePreview(v.imageSmall, 400) : false;
         return v;
       }
       if (k !== 'highResImage') {
