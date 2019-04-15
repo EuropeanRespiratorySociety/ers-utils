@@ -7,7 +7,8 @@ const renderer = new parser.Renderer();
 /*eslint no-console: ["error", { allow: ["warn", "error", "log"] }] */
 // Markdown renderer configuration
 renderer.heading = (text, level) => `<h${level}>${text}</h${level}>\n`;
-renderer.paragraph = (text) => `<p>${text}</p>\n`;
+renderer.paragraph = text => `<p>${text}</p>\n`;
+//renderer.link = (href, title, text) => '<a target="_blank" href="' + href + '" title="' + title + '">' + text + '</a>';
 
 parser.setOptions({
   renderer: renderer,
@@ -44,7 +45,7 @@ const truncate = (string, length, append) => {
  * @param {string} string
  * @return {string}
  */
-const clean = (string) => {
+const clean = string => {
   return sanitizeHtml(string, {
     allowedTags: [],
     allowedAttributes: []
@@ -72,7 +73,14 @@ const parse = (value, key, raw = false) => {
  * @param {number} [size] - (optional) the size of the image (width)
  * @return {string} - the fully qualified url
  */
-const attachementUrl = (baseUrl, type, changeset, attachement, size, mimetype) => {
+const attachementUrl = (
+  baseUrl,
+  type,
+  changeset,
+  attachement,
+  size,
+  mimetype
+) => {
   size = size || false;
   mimetype = mimetype || false;
   changeset = changeset || moment().format('x');
@@ -87,7 +95,6 @@ const attachementUrl = (baseUrl, type, changeset, attachement, size, mimetype) =
   }
 
   return baseUrl + qualifiedPath + `&v=${changeset}`;
-
 };
 
 /**
@@ -100,8 +107,7 @@ const attachementUrl = (baseUrl, type, changeset, attachement, size, mimetype) =
  */
 const typeColor = (type, types, label) => {
   if (type) {
-    return types.indexOf(type) !== -1 ?
-      label : false;
+    return types.indexOf(type) !== -1 ? label : false;
   }
   return false;
 };
@@ -130,7 +136,13 @@ const parseContent = (item, fields, subfields, recursive, raw) => {
         return _.map(v, c => {
           if (c.panels) {
             c.panels = _.map(c.panels, panel => {
-              return recursiveParseContent(panel, fields, subfields, recursive, raw);
+              return recursiveParseContent(
+                panel,
+                fields,
+                subfields,
+                recursive,
+                raw
+              );
             });
           }
           return c;
@@ -144,15 +156,11 @@ const parseContent = (item, fields, subfields, recursive, raw) => {
       }
     }
 
-    if (_.indexOf(subfields, k) !== -1 &&
-      !_.isArray(v) &&
-      v) {
+    if (_.indexOf(subfields, k) !== -1 && !_.isArray(v) && v) {
       return _.mapValues(v, (v, k) => parse(v, k, raw));
     }
 
-    if (_.indexOf(subfields, k) !== -1 &&
-      _.isArray(v) &&
-      v) {
+    if (_.indexOf(subfields, k) !== -1 && _.isArray(v) && v) {
       return _.map(v, v => {
         return _.mapValues(v, (v, k) => parse(v, k, raw));
       });
@@ -174,9 +182,7 @@ const parseContent = (item, fields, subfields, recursive, raw) => {
 const parseAttachements = (item, baseUrl, properties, documents, version) => {
   properties = properties || [];
   documents = documents || [];
-  const {
-    changeset
-  } = item._system || {
+  const { changeset } = item._system || {
     changeset: version ? version : false
   };
 
@@ -214,7 +220,13 @@ const parseAttachements = (item, baseUrl, properties, documents, version) => {
 
           if (c.panels) {
             c.panels = _.map(c.panels, panel => {
-              return recursiveParseAttachements(panel, baseUrl, properties, documents, changeset);
+              return recursiveParseAttachements(
+                panel,
+                baseUrl,
+                properties,
+                documents,
+                changeset
+              );
             });
           }
 
@@ -222,8 +234,8 @@ const parseAttachements = (item, baseUrl, properties, documents, version) => {
         });
       }
       if (k === 'question') {
-        v.imageBig ? v.imageBig = parsePreview(v.imageBig, 800) : false;
-        v.imageSmall ? v.imageSmall = parsePreview(v.imageSmall, 400) : false;
+        v.imageBig ? (v.imageBig = parsePreview(v.imageBig, 800)) : false;
+        v.imageSmall ? (v.imageSmall = parsePreview(v.imageSmall, 400)) : false;
         return v;
       }
       if (k !== 'highResImage') {
@@ -245,10 +257,7 @@ const parseAttachements = (item, baseUrl, properties, documents, version) => {
   });
 };
 
-
-
 module.exports = class Format {
-
   constructor() {
     /**
      * Wraps loadash to make it available
@@ -300,10 +309,11 @@ module.exports = class Format {
         };
       });
     }
-    if (_.isEmpty(item.flags)) item.flags.push({
-      text: false,
-      color: false
-    });
+    if (_.isEmpty(item.flags))
+      item.flags.push({
+        text: false,
+        color: false
+      });
     return item;
   }
 
@@ -335,7 +345,9 @@ module.exports = class Format {
    */
   addImageFromHighResImage(item) {
     if (!item.image && item.highResImage) {
-      item.image = `${item.highResImage.split('&')[0]}&name=img500&size=500&v=${item._system.changeset}`;
+      item.image = `${item.highResImage.split('&')[0]}&name=img500&size=500&v=${
+        item._system.changeset
+      }`;
     }
     return item;
   }
@@ -398,5 +410,4 @@ module.exports = class Format {
   sortBy(source, filter) {
     return _.sortBy(source, filter);
   }
-
 };

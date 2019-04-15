@@ -1,6 +1,5 @@
 const moment = require('moment');
 const _ = require('lodash');
-
 /**
  * @param {string} wouldBeDate
  * @param {boolean} timestamp
@@ -56,10 +55,12 @@ const toTimeStamp = (date) => {
 /**
  * Sets some specific dates fields
  * @param {string} start - eventDate
- * @param {string} [end] - enventEndate
+ * @param {string} [end] - eventEndate
+ * @param {string} [time] - eventTime
  */
-const dates = (start, end) => {
+const dates = (start, end, time) => {
   end = end || false;
+  time = time || false;
 
   if (start && end) {
     return {
@@ -71,10 +72,11 @@ const dates = (start, end) => {
   }
 
   if (start && !end) {
+    let ersDateResult = ersDate(start);
     return {
-      eventDates: ersDate(start),
+      eventDates: ersDateResult + (time ? ' - ' + time : ''),
       startDateTimestamp: parseInt(toTimeStamp(start), 10),
-      startDate: ersDate(start)
+      startDate: ersDateResult
     };
   }
 
@@ -138,7 +140,7 @@ module.exports = class DateUtils {
    * @return {Object}
    */
   setDates(item) {
-    return Object.assign({}, item, dates(item.eventDate, item.eventEndDate));
+    return Object.assign({}, item, dates(item.eventDate, item.eventEndDate, item.eventTime));
   }
 
   /**

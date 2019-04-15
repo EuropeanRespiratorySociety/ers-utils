@@ -5,6 +5,9 @@ const cp = new C();
 
 const item = {
   title: 'Title to test | this should be removed',
+  eventDate: '03/10/2017',
+  eventEndDate: false,
+  eventTime: 'CET 14:00',
   body: "### This is a title\n",
   leadParagraph: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a mi ut nunc rhoncus pharetra at ut neque. Nulla facilisi. Phasellus a mi ut nunc rhoncus pharetra at ut neque. Nulla facilisi.</p>',
   arrayOfObjects: [{
@@ -37,6 +40,9 @@ const item = {
 };
 const item2 = {
   title: 'Title to test | this should be removed',
+  eventDate: '03/10/2017',
+  eventEndDate: '03/11/2017',
+  eventTime: false,
   body: "### This is a title\n",
   arrayOfObjects: [{
     info: "test string"
@@ -120,7 +126,7 @@ const configCmeOnline = {
 };
 
 describe('Composition Util', () => {
-  it('formats title and sets color types', () => {
+  it('formats title and sets color types and event dates', () => {
     const education = cp.formatProperties(config)(item);
     const scientific = cp.formatProperties(config)(item2);
     assert.equal(education.typeColor, label);
@@ -146,6 +152,9 @@ describe('Composition Util', () => {
 
     assert.equal(scientific.arrayOfStrings[0], 'should not be parsed');
     assert.equal(scientific.arrayOfStrings[1], 'this either');
+
+    assert.equal(education.eventDates, '10 March, 2017 - CET 14:00');
+    assert.equal(scientific.eventDates, '10-11 March, 2017');
   });
 
   it('does not format markdown', () => {

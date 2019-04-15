@@ -167,7 +167,7 @@ describe('Date Util', function () {
     });
   });
 
-  it('sets dates to an object', () => {
+  it('sets dates to an object with eventDate only', () => {
     const timestamp = moment('03/10/2017', 'MM/DD/YYYY').format('x')
     const item = {
       title: 'This is a title',
@@ -181,6 +181,45 @@ describe('Date Util', function () {
       startDateTimestamp: parseInt(timestamp),
       startDate: '10 March, 2017',
       eventEndDate: false
+    }
+    assert.deepEqual(date.setDates(item), result)
+  })
+
+  it('sets dates to an object with eventDate and eventEndDate', () => {
+    const timestamp = moment('03/10/2017', 'MM/DD/YYYY').format('x')
+    const item = {
+      title: 'This is a title',
+      eventDate: '03/10/2017',
+      eventEndDate: '03/11/2017'
+    }
+    const result = {
+      title: 'This is a title',
+      eventDate: '03/10/2017',
+      eventDates: '10-11 March, 2017',
+      eventEndDate: '03/11/2017',
+      startDateTimestamp: parseInt(timestamp),
+      startDate: '10 March, 2017',
+      endDate: '11 March, 2017'
+    }
+    assert.deepEqual(date.setDates(item), result)
+  })
+
+  it('sets dates to an object with eventDate and eventTime', () => {
+    const timestamp = moment('03/10/2017', 'MM/DD/YYYY').format('x')
+    const item = {
+      title: 'This is a title',
+      eventDate: '03/10/2017',
+      eventEndDate: false,
+      eventTime: 'CET 14:00'
+    }
+    const result = {
+      title: 'This is a title',
+      eventDate: '03/10/2017',
+      eventDates: '10 March, 2017 - CET 14:00',
+      eventEndDate: false,
+      eventTime: 'CET 14:00',
+      startDateTimestamp: parseInt(timestamp),
+      startDate: '10 March, 2017'
     }
     assert.deepEqual(date.setDates(item), result)
   })
