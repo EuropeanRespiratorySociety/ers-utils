@@ -9,7 +9,12 @@ const renderer = new parser.Renderer();
 renderer.heading = (text, level) => `<h${level}>${text}</h${level}>\n`;
 renderer.paragraph = text => `<p>${text}</p>\n`;
 //renderer.link = (href, title, text) => '<a target="_blank" href="' + href + '" title="' + title + '">' + text + '</a>';
-
+// const linkRenderer = renderer.link;
+// renderer.link = (href, title, text) => {
+//   const html = linkRenderer.call(renderer, href, title, text);
+//   return html.replace('?target=_blank"', '" target="_blank"');
+//   //return html.replace(/^<a /, '<a target="_blank"');/?target=_blank\"
+// };
 parser.setOptions({
   renderer: renderer,
   gfm: true,
@@ -182,7 +187,9 @@ const parseContent = (item, fields, subfields, recursive, raw) => {
 const parseAttachements = (item, baseUrl, properties, documents, version) => {
   properties = properties || [];
   documents = documents || [];
-  const { changeset } = item._system || {
+  const {
+    changeset
+  } = item._system || {
     changeset: version ? version : false
   };
 

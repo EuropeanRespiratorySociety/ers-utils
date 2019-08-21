@@ -126,6 +126,10 @@ describe('Date Util', function () {
     assert.equal(date.ersDate('03/31/2017', '04/03/2017'), '31 March - 3 April, 2017');
   });
 
+  it('formats two dates in the different year', () => {
+    assert.equal(date.ersDate('04/01/2019', '01/31/2020'), '1 April, 2019 - 31 January, 2020');
+  });
+
   it('returns a timestamp', () => {
     const timestamp = moment('03/10/2017', 'MM/DD/YYYY').format('x')
     assert.equal(date.toTimeStamp('03/10/2017'), timestamp);
@@ -149,7 +153,7 @@ describe('Date Util', function () {
     const eventEndDate = '05/31/2017';
     const timestamp = moment('01/09/2016', 'MM/DD/YYYY').format('x')
     assert.deepEqual(date.dates(eventDate, eventEndDate), {
-      eventDates: '9 January - 31 May, 2017',
+      eventDates: '9 January, 2016 - 31 May, 2017',
       startDateTimestamp: parseInt(timestamp),
       startDate: '9 January, 2016',
       endDate: '31 May, 2017'

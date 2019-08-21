@@ -29,6 +29,10 @@ const ersDate = (start, end, timestamp) => {
     let endDate = isValidDate(end);
 
     if (end) {
+      if (startDate.format('YYYY') !== endDate.format('YYYY')) {
+        return startDate.format('D MMMM, YYYY') + ' - ' + endDate.format(stringFormat);
+      }
+
       if (startDate.format('MMMM') !== endDate.format('MMMM')) {
         return startDate.format('D MMMM') + ' - ' + endDate.format(stringFormat);
       }
