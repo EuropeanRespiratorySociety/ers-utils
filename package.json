@@ -67,7 +67,7 @@
   "dependencies": {
     "embed-video": "^2.0.4",
     "lodash": "^4.17.10",
-    "marked": "^0.4.0",
+    "marked": "^0.8.1",
     "moment": "^2.22.1",
     "sanitize-html": "^1.18.2"
   }
